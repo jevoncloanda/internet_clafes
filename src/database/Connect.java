@@ -55,9 +55,10 @@ public class Connect {
 		try {
 			ps = con.prepareStatement(query);
 			
-			ps.setString(1, user.getUsername());
-			ps.setString(2, user.getPassword());
-			ps.setInt(3, user.getAge());
+			ps.setString(1, user.getUserName());
+			ps.setString(2, user.getUserPassword());
+			ps.setInt(3, user.getUserAge());
+			ps.setString(4, user.getUserRole());
 			
 			ps.executeUpdate();
 		} catch (SQLException e) {

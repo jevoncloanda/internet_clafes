@@ -1,5 +1,6 @@
 package view;
 
+import controller.UserController;
 import database.Connect;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -27,11 +28,13 @@ public class RegisterPage extends Application{
 	MenuBar menuBar;
 	Menu menu;
 	MenuItem menuItemLogin;
-	Label title, username, password, age;
+	Label title, username, password, confirmPassword, age;
 	TextField username_tf;
 	Spinner<Integer> age_tf;
-	PasswordField password_tf;
+	PasswordField password_tf, confirmPassword_tf;
 	Button submit;
+	
+	UserController uc = new UserController();
 	
 	private void initializeMenu() {
 		menuBar = new MenuBar();
@@ -51,6 +54,8 @@ public class RegisterPage extends Application{
 		username_tf = new TextField();
 		password = new Label("Password");
 		password_tf = new PasswordField();
+		confirmPassword = new Label("Confirm Password");
+		confirmPassword_tf = new PasswordField();
 		age = new Label("Age");
 		age_tf = new Spinner<>(1,100,17);
 		submit = new Button("REGISTER");
@@ -63,9 +68,11 @@ public class RegisterPage extends Application{
 		gp.add(username_tf, 0, 3);
 		gp.add(password, 0, 4);
 		gp.add(password_tf, 0, 5);
-		gp.add(age, 0, 6);
-		gp.add(age_tf, 0, 7);
-		gp.add(submit, 0, 8);
+		gp.add(confirmPassword, 0, 6);
+		gp.add(confirmPassword_tf, 0, 7);
+		gp.add(age, 0, 8);
+		gp.add(age_tf, 0, 9);
+		gp.add(submit, 0, 10);
 		gp.setVgap(10);
 		gp.setAlignment(Pos.CENTER);
 		bp.setTop(menuBar);
@@ -73,18 +80,18 @@ public class RegisterPage extends Application{
 		scene = new Scene(bp, 650, 650);
 	}
 	
-	private void register(String u, String p, Integer a) {
-		Connect con = Connect.getInstance();
-		
-		if(u.length() > 0 && p.length() > 0) {
-			con.insertUser("INSERT INTO USER VALUES(?,?,?)", new User(u, p, a));
-		}
+	private void customerRegister(String u, String p, Integer a) {
+		uc.customerRegister(u, p, a);
 	}
 	
 	private void handling() {
 		submit.setOnAction(e->{
-			register(username_tf.getText(), password_tf.getText(), age_tf.getValue());
-			new LoginPage(stage);
+			if(password_tf.getText().equals(confirmPassword_tf.getText())) {
+				customerRegister(username_tf.getText(), password_tf.getText(), age_tf.getValue());
+				new LoginPage(stage);				
+			} else {
+				System.out.println("Error");
+			}
 		});
 		
 		menuItemLogin.setOnAction(e->{

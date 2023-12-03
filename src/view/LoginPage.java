@@ -73,7 +73,7 @@ public class LoginPage {
 		Connect con = Connect.getInstance();
 		
 		submit.setOnAction(e->{
-			ResultSet rs = con.selectData("SELECT * FROM User");
+			ResultSet rs = con.selectData("SELECT * FROM users");
 			
 			try {
 				while(rs.next()) {
