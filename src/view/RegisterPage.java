@@ -28,7 +28,7 @@ public class RegisterPage extends Application{
 	MenuBar menuBar;
 	Menu menu;
 	MenuItem menuItemLogin;
-	Label title, username, password, confirmPassword, age;
+	Label title, username, password, confirmPassword, age, errorMsg;
 	TextField username_tf;
 	Spinner<Integer> age_tf;
 	PasswordField password_tf, confirmPassword_tf;
@@ -58,6 +58,7 @@ public class RegisterPage extends Application{
 		confirmPassword_tf = new PasswordField();
 		age = new Label("Age");
 		age_tf = new Spinner<>(1,100,17);
+		
 		submit = new Button("REGISTER");
 		
 		initializeMenu();
@@ -72,7 +73,7 @@ public class RegisterPage extends Application{
 		gp.add(confirmPassword_tf, 0, 7);
 		gp.add(age, 0, 8);
 		gp.add(age_tf, 0, 9);
-		gp.add(submit, 0, 10);
+		gp.add(submit, 0, 11);
 		gp.setVgap(10);
 		gp.setAlignment(Pos.CENTER);
 		bp.setTop(menuBar);
@@ -86,12 +87,14 @@ public class RegisterPage extends Application{
 	
 	private void handling() {
 		submit.setOnAction(e->{
-			if(password_tf.getText().equals(confirmPassword_tf.getText())) {
-				customerRegister(username_tf.getText(), password_tf.getText(), age_tf.getValue());
-				new LoginPage(stage);				
-			} else {
-				System.out.println("Error");
+			if(uc.checkRegister(username_tf.getText(), password_tf.getText(), confirmPassword_tf.getText(), age_tf.getValue()) != "") {
+				errorMsg = new Label(uc.checkRegister(username_tf.getText(), password_tf.getText(), confirmPassword_tf.getText(), age_tf.getValue()));
+				gp.add(errorMsg, 0, 10);
 			}
+			else if(uc.checkRegister(username_tf.getText(), password_tf.getText(), confirmPassword_tf.getText(), age_tf.getValue()) == "") {
+				customerRegister(username_tf.getText(), password_tf.getText(), age_tf.getValue());
+				new LoginPage(stage);
+			} 
 		});
 		
 		menuItemLogin.setOnAction(e->{

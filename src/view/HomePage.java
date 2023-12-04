@@ -50,11 +50,12 @@ public class HomePage {
         
         try {
 			while(rs.next()) {
-				String u = rs.getString("Username");
-				String p = rs.getString("Password");
-				Integer a = rs.getInt("Age");
+				String u = rs.getString("UserName");
+				String p = rs.getString("UserPassword");
+				Integer a = rs.getInt("UserAge");
+				String r = rs.getString("UserRole");
 				
-				userList.add(new User(u, p, a));
+				userList.add(new User(u, p, a, r));
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
