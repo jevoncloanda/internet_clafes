@@ -1,10 +1,10 @@
 package view;
 
 import controller.UserController;
-import database.Connect;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -17,109 +17,108 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.User;
 
 public class RegisterPage extends Application{
-	Stage stage;
-	Scene scene;
-	VBox vb;
-	BorderPane bp;
-	GridPane gp;
-	MenuBar menuBar;
-	Menu menu;
-	MenuItem menuItemLogin;
-	Label title, username, password, confirmPassword, age, errorMsg;
-	TextField username_tf;
-	Spinner<Integer> age_tf;
-	PasswordField password_tf, confirmPassword_tf;
-	Button submit;
-	
-	UserController uc = new UserController();
-	
-	private void initializeMenu() {
-		menuBar = new MenuBar();
-		menu = new Menu("Menu");
-		menuItemLogin = new MenuItem("Login");
-		menuBar.getMenus().add(menu);
-		menu.getItems().add(menuItemLogin);
+	UserController userController = new UserController();
+	public class RegisterVar {
+		public Stage stage;
+		Scene scene;
+		BorderPane bp;
+		GridPane gp;
+		VBox vb1, vb2;
+		MenuBar menuBar;
+		Menu menu;
+		public MenuItem menuItemLogin;
+		Label title, username_lbl, password_lbl, age_lbl, confpassword_lbl;
+		public TextField username_tf;
+		public PasswordField pass_pf, confpass_pf;
+		public Spinner<Integer> age_spin;
+		public Button button_regis;
+		public Alert alert;
 	}
 	
-	private void initialize() {
-		bp = new BorderPane();
-		vb = new VBox();
-		gp = new GridPane();
-		
-		title = new Label("Registration");
-		username = new Label("Username");
-		username_tf = new TextField();
-		password = new Label("Password");
-		password_tf = new PasswordField();
-		confirmPassword = new Label("Confirm Password");
-		confirmPassword_tf = new PasswordField();
-		age = new Label("Age");
-		age_tf = new Spinner<>(1,100,17);
-		
-		submit = new Button("REGISTER");
-		
-		initializeMenu();
-		vb.getChildren().add(title);
-		vb.setAlignment(Pos.CENTER);
-		gp.add(vb, 0, 1);
-		gp.add(username, 0, 2);
-		gp.add(username_tf, 0, 3);
-		gp.add(password, 0, 4);
-		gp.add(password_tf, 0, 5);
-		gp.add(confirmPassword, 0, 6);
-		gp.add(confirmPassword_tf, 0, 7);
-		gp.add(age, 0, 8);
-		gp.add(age_tf, 0, 9);
-		gp.add(submit, 0, 11);
-		gp.setVgap(10);
-		gp.setAlignment(Pos.CENTER);
-		bp.setTop(menuBar);
-		bp.setCenter(gp);
-		scene = new Scene(bp, 650, 650);
+	private void initializeMenu(RegisterVar registerVar) {
+		registerVar.menuBar = new MenuBar();
+		registerVar.menu = new Menu("Menu");
+		registerVar.menuItemLogin = new MenuItem("Login");
+		registerVar.menuBar.getMenus().add(registerVar.menu);
+		registerVar.menu.getItems().add(registerVar.menuItemLogin);
 	}
-	
-	private void customerRegister(String u, String p, Integer a) {
-		uc.customerRegister(u, p, a);
+
+	private void initializeAlert(RegisterVar registerVar) {
+		registerVar.alert = new Alert(AlertType.ERROR);
+		registerVar.alert.setTitle("Register");
 	}
-	
-	private void handling() {
-		submit.setOnAction(e->{
-			if(uc.checkRegister(username_tf.getText(), password_tf.getText(), confirmPassword_tf.getText(), age_tf.getValue()) != "") {
-				errorMsg = new Label(uc.checkRegister(username_tf.getText(), password_tf.getText(), confirmPassword_tf.getText(), age_tf.getValue()));
-				gp.add(errorMsg, 0, 10);
+
+	private void initialize(RegisterVar registerVar) {
+		registerVar.bp = new BorderPane();
+		registerVar.gp = new GridPane();
+		registerVar.vb1 = new VBox();
+		registerVar.vb2 = new VBox();
+
+		registerVar.title = new Label("Registration");
+		registerVar.username_lbl = new Label("Username");
+		registerVar.username_tf = new TextField();
+		registerVar.password_lbl = new Label("Password");
+		registerVar.pass_pf = new PasswordField();
+		registerVar.confpassword_lbl = new Label("Confirm Password");
+		registerVar.confpass_pf = new PasswordField();
+		registerVar.age_lbl = new Label("Age");
+		registerVar.age_spin = new Spinner<>(1, 100, 17); // min max n initial
+		registerVar.button_regis = new Button("REGISTER");
+		
+		initializeMenu(registerVar);
+		registerVar.vb1.getChildren().add(registerVar.title);
+		registerVar.vb2.getChildren().addAll(registerVar.username_lbl, 
+				registerVar.username_tf,
+				registerVar.password_lbl, 
+				registerVar.pass_pf,
+				registerVar.confpassword_lbl,
+				registerVar.confpass_pf,
+				registerVar.age_lbl, 
+				registerVar.age_spin,
+				registerVar.button_regis);
+
+		registerVar.gp.add(registerVar.vb1, 0, 0);
+		registerVar.gp.add(registerVar.vb2, 0, 1);
+
+		registerVar.bp.setTop(registerVar.menuBar);
+		registerVar.bp.setCenter(registerVar.gp);
+
+		registerVar.scene = new Scene(registerVar.bp, 600, 600);
+	}
+
+	private void handle(RegisterVar registerVar) {
+		userController.handling_regis(registerVar);
+		
+		registerVar.menuItemLogin.setOnAction(e->{
+			try {
+				new LoginPage(registerVar.stage);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			else if(uc.checkRegister(username_tf.getText(), password_tf.getText(), confirmPassword_tf.getText(), age_tf.getValue()) == "") {
-				customerRegister(username_tf.getText(), password_tf.getText(), age_tf.getValue());
-				new LoginPage(stage);
-			} 
-		});
-		
-		menuItemLogin.setOnAction(e->{
-			new LoginPage(stage);
 		});
 	}
-	
-	private void setStyle() {
-		title.setStyle("-fx-font-weight: bold;" + "-fx-font-family: Serif;" + "-fx-font-size: 35px;");
-		submit.setStyle("-fx-background-color: blue;" + "-fx-text-fill: white;" + "-fx-min-width: 480px;" + "-fx-font-weight: bold;");
-		age_tf.setStyle("-fx-min-width: 480px");
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		launch(args);
+
 	}
 
 	@Override
-	public void start(Stage stage) throws Exception {
-		initialize();
-		handling();
-		setStyle();
-		this.stage = stage;
-		this.stage.setScene(scene);
-		this.stage.show();
-	}
-	
-	public static void main(String[] args) {
-		launch(args);
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		RegisterVar registerVar = new RegisterVar();
+		initialize(registerVar);
+		initializeAlert(registerVar);
+		handle(registerVar);
+
+		registerVar.stage = primaryStage;
+		registerVar.stage.setScene(registerVar.scene);
+		registerVar.stage.setResizable(false);
+		registerVar.stage.show();
 	}
 
 }
