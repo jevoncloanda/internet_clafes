@@ -64,7 +64,7 @@ public class RegisterPage extends Application{
 		registerVar.confpassword_lbl = new Label("Confirm Password");
 		registerVar.confpass_pf = new PasswordField();
 		registerVar.age_lbl = new Label("Age");
-		registerVar.age_spin = new Spinner<>(1, 100, 17); // min max n initial
+		registerVar.age_spin = new Spinner<>(1, 100, 13); // min max n initial
 		registerVar.button_regis = new Button("REGISTER");
 		
 		initializeMenu(registerVar);

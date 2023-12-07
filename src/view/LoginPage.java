@@ -20,80 +20,84 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LoginPage {
-	Stage stage;
-	Scene scene;
-	VBox vb;
-	BorderPane bp;
-	GridPane gp;
-	MenuBar menuBar;
-	Menu menu;
-	MenuItem menuItemRegister;
-	Label title, username, password;
-	TextField username_tf;
-	PasswordField password_tf;
-	Button submit;
-	
-	private void initializeMenu() {
-		menuBar = new MenuBar();
-		menu = new Menu("Menu");
-		menuItemRegister = new MenuItem("Register");
-		menuBar.getMenus().add(menu);
-		menu.getItems().add(menuItemRegister);
+	public class LoginVar{
+		Stage stage;
+		Scene scene;
+		VBox vb1, vb2;
+		BorderPane bp;
+		GridPane gp;
+		MenuBar menuBar;
+		Menu menu;
+		MenuItem menuItemRegister;
+		Label title, username_lbl, password_lbl;
+		TextField username_tf;
+		PasswordField password_pf;
+		Button button_submit;
 	}
 	
-	private void initialize() {
-		bp = new BorderPane();
-		vb = new VBox();
-		gp = new GridPane();
-		
-		title = new Label("Login");
-		username = new Label("Username");
-		username_tf = new TextField();
-		password = new Label("Password");
-		password_tf = new PasswordField();
-		submit = new Button("LOGIN");
-		
-		initializeMenu();
-		vb.getChildren().add(title);
-		vb.setAlignment(Pos.CENTER);
-		gp.add(vb, 0, 1);
-		gp.add(username, 0, 2);
-		gp.add(username_tf, 0, 3);
-		gp.add(password, 0, 4);
-		gp.add(password_tf, 0, 5);
-		gp.add(submit, 0, 6);
-		gp.setVgap(10);
-		gp.setAlignment(Pos.CENTER);
-		bp.setTop(menuBar);
-		bp.setCenter(gp);
-		scene = new Scene(bp, 650, 650);
+	private void initializeMenu(LoginVar loginVar) {
+		loginVar.menuBar = new MenuBar();
+		loginVar.menu = new Menu("Menu");
+		loginVar.menuItemRegister = new MenuItem("Register");
+		loginVar.menuBar.getMenus().add(loginVar.menu);
+		loginVar.menu.getItems().add(loginVar.menuItemRegister);
 	}
 	
-	private void handling() {
+	private void initialize(LoginVar loginVar) {
+		loginVar.bp = new BorderPane();
+		loginVar.vb1 = new VBox();
+		loginVar.vb2 = new VBox();
+		loginVar.gp = new GridPane();
+		
+		loginVar.title = new Label("Login");
+		loginVar.username_lbl = new Label("UserName");
+		loginVar.username_tf = new TextField();
+		loginVar.password_lbl = new Label("Password");
+		loginVar.password_pf = new PasswordField();
+		loginVar.button_submit = new Button("LOGIN");
+		
+		initializeMenu(loginVar);
+		loginVar.vb1.getChildren().add(loginVar.title);
+		loginVar.vb2.getChildren().addAll(loginVar.username_lbl, 
+				loginVar.username_tf,
+				loginVar.password_lbl, 
+				loginVar.password_pf,
+				loginVar.button_submit);
+
+		loginVar.gp.add(loginVar.vb1, 0, 0);
+		loginVar.gp.add(loginVar.vb2, 0, 1);
+
+		loginVar.bp.setTop(loginVar.menuBar);
+		loginVar.bp.setCenter(loginVar.gp);
+		
+		loginVar.scene = new Scene(loginVar.bp, 600, 600);
+	}
+	
+	private void handle(LoginVar loginVar) {
 		Connect con = Connect.getInstance();
 		
-		submit.setOnAction(e->{
-			ResultSet rs = con.selectData("SELECT * FROM users");
-			
-			try {
-				while(rs.next()) {
-					String u = rs.getString("Username");
-					String p = rs.getString("Password");
-					
-					if(username_tf.getText().equals(u) && password_tf.getText().equals(p)) {
-						new HomePage(stage);
-					}
-					
-				}
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		loginVar.button_submit.setOnAction(e->{
+//			ResultSet rs = con.selectData("SELECT * FROM users");
+//			
+//			try {
+//				while(rs.next()) {
+//					String u = rs.getString("Username");
+//					String p = rs.getString("Password");
+//					
+//					if(loginVar.username_tf.getText().equals(u) && loginVar.password_pf.getText().equals(p)) {
+//						new HomePage(loginVar.stage);
+//					}
+//					
+//				}
+//			} catch (SQLException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 		});
 		
-		menuItemRegister.setOnAction(e->{
+		loginVar.menuItemRegister.setOnAction(e->{
 			try {
-				new RegisterPage().start(stage);
+				new RegisterPage().start(loginVar.stage);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -101,18 +105,13 @@ public class LoginPage {
 		});
 	}
 	
-	private void setStyle() {
-		title.setStyle("-fx-font-weight: bold;" + "-fx-font-family: Serif;" + "-fx-font-size: 35px;");
-		submit.setStyle("-fx-background-color: blue;" + "-fx-text-fill: white;" + "-fx-min-width: 480px;" + "-fx-font-weight: bold;");
-	}
-	
 	public LoginPage(Stage stage) {
-		initialize();
-		handling();
-		setStyle();
-		this.stage = stage;
-		this.stage.setResizable(false);
-		this.stage.setScene(scene);
-		this.stage.show();
+		LoginVar loginVar = new LoginVar();
+		initialize(loginVar);
+		handle(loginVar);
+		loginVar.stage = stage;
+		loginVar.stage.setResizable(false);
+		loginVar.stage.setScene(loginVar.scene);
+		loginVar.stage.show();
 	}
 }
