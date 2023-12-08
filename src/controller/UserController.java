@@ -1,12 +1,17 @@
 package controller;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import database.UserModel;
 import model.User;
 import view.LoginPage;
+import view.LoginPage.LoginVar;
 import view.RegisterPage.RegisterVar;
 
 public class UserController {
 	UserModel userModel = new UserModel();
+	ResultSet rs;
 	
 	public void handling_regis(RegisterVar registerVar) {
 		registerVar.button_regis.setOnAction(e -> {
@@ -74,9 +79,51 @@ public class UserController {
 	        	registerVar.alert.setContentText("Age must be between 13-65");
 	        	registerVar.alert.showAndWait();
 	        }
+	        else if(userModel.checkUserExist(u) == true) {
+	        	registerVar.alert.setContentText("Username already exists!");
+	        	registerVar.alert.showAndWait();
+	        }
 	        else {
 				userModel.regis(new User(u, p, a, "Customer"));
 				new LoginPage(registerVar.stage);
+			}
+		});
+	}
+	
+	public void handling_login(LoginVar loginVar) {		
+		loginVar.button_login.setOnAction(e -> {
+			String u = loginVar.username_tf.getText();
+			String p = loginVar.password_pf.getText();
+			if(u.isEmpty()|| p.isEmpty()) {
+				loginVar.alert.setContentText("Fill in all fields!");
+				loginVar.alert.showAndWait();
+			}
+			else if(userModel.login(u, p) == false) {
+				loginVar.alert.setContentText("Invalid username or password!");
+				loginVar.alert.showAndWait();
+			}
+			else if(userModel.login(u, p) == true) {
+				rs = userModel.getUser(u, p);
+				try {
+					rs.next();
+					String role = rs.getString("UserRole");
+					
+					// tinggal tambahin new ..HomePage() tiap role nya disini
+					if(role.equals("Customer")) {
+						
+					}
+					else if(role.equals("ComputerTechnician")) {
+						
+					}
+					else if(role.equals("Operator")) {
+						
+					}
+					else if(role.equals("Admin")) {
+						
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 	}

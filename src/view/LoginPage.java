@@ -3,9 +3,11 @@ package view;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import controller.UserController;
 import database.Connect;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -14,14 +16,17 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import view.RegisterPage.RegisterVar;
 
 public class LoginPage {
+	UserController userController = new UserController();
 	public class LoginVar{
-		Stage stage;
+		public Stage stage;
 		Scene scene;
 		VBox vb1, vb2;
 		BorderPane bp;
@@ -30,9 +35,10 @@ public class LoginPage {
 		Menu menu;
 		MenuItem menuItemRegister;
 		Label title, username_lbl, password_lbl;
-		TextField username_tf;
-		PasswordField password_pf;
-		Button button_submit;
+		public TextField username_tf;
+		public PasswordField password_pf;
+		public Button button_login;
+		public Alert alert;
 	}
 	
 	private void initializeMenu(LoginVar loginVar) {
@@ -41,6 +47,11 @@ public class LoginPage {
 		loginVar.menuItemRegister = new MenuItem("Register");
 		loginVar.menuBar.getMenus().add(loginVar.menu);
 		loginVar.menu.getItems().add(loginVar.menuItemRegister);
+	}
+	
+	private void initializeAlert(LoginVar loginVar) {
+		loginVar.alert = new Alert(AlertType.ERROR);
+		loginVar.alert.setTitle("Login");
 	}
 	
 	private void initialize(LoginVar loginVar) {
@@ -54,7 +65,7 @@ public class LoginPage {
 		loginVar.username_tf = new TextField();
 		loginVar.password_lbl = new Label("Password");
 		loginVar.password_pf = new PasswordField();
-		loginVar.button_submit = new Button("LOGIN");
+		loginVar.button_login = new Button("LOGIN");
 		
 		initializeMenu(loginVar);
 		loginVar.vb1.getChildren().add(loginVar.title);
@@ -62,7 +73,7 @@ public class LoginPage {
 				loginVar.username_tf,
 				loginVar.password_lbl, 
 				loginVar.password_pf,
-				loginVar.button_submit);
+				loginVar.button_login);
 
 		loginVar.gp.add(loginVar.vb1, 0, 0);
 		loginVar.gp.add(loginVar.vb2, 0, 1);
@@ -74,26 +85,7 @@ public class LoginPage {
 	}
 	
 	private void handle(LoginVar loginVar) {
-		Connect con = Connect.getInstance();
-		
-		loginVar.button_submit.setOnAction(e->{
-//			ResultSet rs = con.selectData("SELECT * FROM users");
-//			
-//			try {
-//				while(rs.next()) {
-//					String u = rs.getString("Username");
-//					String p = rs.getString("Password");
-//					
-//					if(loginVar.username_tf.getText().equals(u) && loginVar.password_pf.getText().equals(p)) {
-//						new HomePage(loginVar.stage);
-//					}
-//					
-//				}
-//			} catch (SQLException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-		});
+		userController.handling_login(loginVar);
 		
 		loginVar.menuItemRegister.setOnAction(e->{
 			try {
@@ -108,6 +100,7 @@ public class LoginPage {
 	public LoginPage(Stage stage) {
 		LoginVar loginVar = new LoginVar();
 		initialize(loginVar);
+		initializeAlert(loginVar);
 		handle(loginVar);
 		loginVar.stage = stage;
 		loginVar.stage.setResizable(false);
