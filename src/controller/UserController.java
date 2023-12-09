@@ -173,13 +173,6 @@ public class UserController {
 			e1.printStackTrace();
 		}
         
-        adminHomePageVar.vb = new VBox();
-		adminHomePageVar.table = new TableView<User>();
-		adminHomePageVar.username_col = new TableColumn<>("username");
-		adminHomePageVar.age_col = new TableColumn<>("age");
-		adminHomePageVar.role_col = new TableColumn<>("role");
-		adminHomePageVar.table.getColumns().addAll(adminHomePageVar.username_col, adminHomePageVar.age_col, adminHomePageVar.role_col);
-        
 		for (User user : userList) {
         	adminHomePageVar.table.getItems().add(user);
 		}
@@ -187,47 +180,6 @@ public class UserController {
 		adminHomePageVar.username_col.setCellValueFactory(new PropertyValueFactory<>("UserName"));
 		adminHomePageVar.age_col.setCellValueFactory(new PropertyValueFactory<>("UserAge"));
 		adminHomePageVar.role_col.setCellValueFactory(new PropertyValueFactory<>("UserRole"));
-
-        
-		adminHomePageVar.table.setMaxHeight(150);
-		adminHomePageVar.username_col.setMinWidth(200);
-		adminHomePageVar.age_col.setPrefWidth(200);
-        
-        
-		adminHomePageVar.vb.getChildren().add(adminHomePageVar.table);
-		adminHomePageVar.vb.setPadding(new Insets(20, 30, 30, 30));
-        
-		adminHomePageVar.bp = new BorderPane();
-		adminHomePageVar.hb = new HBox();
-		adminHomePageVar.vb1 = new VBox();
-		adminHomePageVar.vb2 = new VBox();
-		
-		adminHomePageVar.title1 = new Label("Update User Role");
-		adminHomePageVar.username = new Label("Username");
-		adminHomePageVar.username_tf = new TextField();
-		adminHomePageVar.role = new Label("Role");
-		adminHomePageVar.role_tf = new TextField();
-		adminHomePageVar.btnUpdate = new Button("UPDATE");
-		
-		adminHomePageVar.title2 = new Label("Delete User");
-		adminHomePageVar.username_del = new Label("Username");
-		adminHomePageVar.username_tf2 = new TextField();
-		adminHomePageVar.btnDelete = new Button("DELETE");
-		
-		adminHomePageVar.vb1.getChildren().addAll(adminHomePageVar.title1, adminHomePageVar.username, adminHomePageVar.username_tf, adminHomePageVar.role, adminHomePageVar.role_tf, adminHomePageVar.btnUpdate);
-		adminHomePageVar.vb2.getChildren().addAll(adminHomePageVar.title2, adminHomePageVar.username_del, adminHomePageVar.username_tf2, adminHomePageVar.btnDelete);
-		
-		adminHomePageVar.hb.getChildren().addAll(adminHomePageVar.vb1, adminHomePageVar.vb2);
-		adminHomePageVar.hb.setPadding(new Insets(0, 0, 0, 30));
-		
-		adminHomePageVar.vb1.setSpacing(10);
-		adminHomePageVar.vb2.setSpacing(10);
-		adminHomePageVar.hb.setSpacing(50);
-		
-		adminHomePageVar.bp.setTop(adminHomePageVar.menuBar);
-		adminHomePageVar.bp.setCenter(adminHomePageVar.vb);
-		adminHomePageVar.bp.setBottom(adminHomePageVar.hb);
-		adminHomePageVar.scene = new Scene(adminHomePageVar.bp, 650, 650);
 	}
 	
 	public void handling_admin(AdminHomePageVar adminHomePageVar) {		

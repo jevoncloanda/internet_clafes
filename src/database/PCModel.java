@@ -10,22 +10,20 @@ public class PCModel {
 	Connect con = Connect.getInstance();
 	PreparedStatement ps;
 	ResultSet rs;
+	
 	public void addPC(PC pc) {
 		
-//		String query ="INSERT INTO users Value('0',?,?,?,?)";
-//		
-//		ps = con.prepareStatment(query);
-//		
-//		try {
-//			ps.setString(1, user.getUserName());
-//			ps.setString(2, user.getUserPassword());
-//			ps.setInt(3, user.getUserAge());
-//			ps.setString(4, user.getUserRole());
-//			ps.executeUpdate();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		String query ="INSERT INTO pcs Value(0,?)";
+		
+		ps = con.prepareStatment(query);
+		
+		try {
+			ps.setString(1, pc.getPC_Condition());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean checkPCExist(Integer pc_id) {
@@ -53,5 +51,17 @@ public class PCModel {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	
+	public void updatePC(Integer pcID, String newCondition) {
+		String query = "UPDATE pcs SET PC_Condition = ? WHERE PC_ID = ?";
+		ps = con.prepareStatment(query);
+		try {
+			ps.setString(1, newCondition);
+			ps.setInt(2, pcID);
+			ps.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

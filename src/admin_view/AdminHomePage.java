@@ -31,8 +31,8 @@ public class AdminHomePage {
 		public Stage stage;
 		public Scene scene;
 		public BorderPane bp;
-		public HBox hb;
-		public VBox vb1, vb2;
+		public GridPane gp;
+		public VBox vb1;
 		public VBox vb;
 		public TableView<User> table;
 		public TableColumn<User, String> username_col, role_col;
@@ -43,7 +43,7 @@ public class AdminHomePage {
 		public Button btnUpdate, btnDelete;
 		public MenuBar menuBar;
 		public Menu menu;
-		public MenuItem logout, addJob;
+		public MenuItem logout, addJob, pcManagement;
 		public Alert alert;
 	}
 	
@@ -52,9 +52,10 @@ public class AdminHomePage {
 		adminHomePageVar.menu = new Menu("Menu");
 		adminHomePageVar.logout = new MenuItem("Logout");
 		adminHomePageVar.addJob = new MenuItem("Add Technician Job");
+		adminHomePageVar.pcManagement = new MenuItem("PC Management Page");
 		adminHomePageVar.menuBar.getMenus().add(adminHomePageVar.menu);
 		adminHomePageVar.menu.getItems().addAll(adminHomePageVar.logout,
-				adminHomePageVar.addJob);
+				adminHomePageVar.addJob, adminHomePageVar.pcManagement);
 	}
 	
 	private void initializeAlert(AdminHomePageVar adminHomePageVar) {
@@ -63,6 +64,42 @@ public class AdminHomePage {
 	}
 	
 	private void initialize(AdminHomePageVar adminHomePageVar) {
+		adminHomePageVar.bp = new BorderPane();
+		adminHomePageVar.gp = new GridPane();
+		// Initialize View All Staff
+		adminHomePageVar.vb = new VBox();
+		adminHomePageVar.table = new TableView<User>();
+		adminHomePageVar.username_col = new TableColumn<>("username");
+		adminHomePageVar.age_col = new TableColumn<>("age");
+		adminHomePageVar.role_col = new TableColumn<>("role");
+		adminHomePageVar.table.getColumns().addAll(adminHomePageVar.username_col, adminHomePageVar.age_col, adminHomePageVar.role_col);
+		
+		adminHomePageVar.table.setMaxHeight(150);
+		adminHomePageVar.username_col.setMinWidth(200);
+		adminHomePageVar.age_col.setPrefWidth(200);
+        
+        
+		adminHomePageVar.vb.getChildren().add(adminHomePageVar.table);
+		adminHomePageVar.vb.setPadding(new Insets(20, 30, 30, 30));
+		adminHomePageVar.gp.add(adminHomePageVar.vb, 0, 0);
+		
+		// Initialize Update Role 
+		adminHomePageVar.vb1 = new VBox();
+		
+		adminHomePageVar.title1 = new Label("Update User Role");
+		adminHomePageVar.username = new Label("Username");
+		adminHomePageVar.username_tf = new TextField();
+		adminHomePageVar.role = new Label("Role");
+		adminHomePageVar.role_tf = new TextField();
+		adminHomePageVar.btnUpdate = new Button("UPDATE");
+
+		adminHomePageVar.vb1.getChildren().addAll(adminHomePageVar.title1, adminHomePageVar.username, adminHomePageVar.username_tf, adminHomePageVar.role, adminHomePageVar.role_tf, adminHomePageVar.btnUpdate);
+		adminHomePageVar.gp.add(adminHomePageVar.vb1, 0, 1);
+		adminHomePageVar.bp.setTop(adminHomePageVar.menuBar);
+		adminHomePageVar.bp.setCenter(adminHomePageVar.gp);
+		adminHomePageVar.scene = new Scene(adminHomePageVar.bp, 650, 650);
+		
+		
 		initializeMenu(adminHomePageVar);
 		viewAllStaff(adminHomePageVar);
 		initializeAlert(adminHomePageVar);
@@ -90,7 +127,6 @@ public class AdminHomePage {
             try {
                 new LoginPage(adminHomePageVar.stage);
             } catch (Exception e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
@@ -99,9 +135,16 @@ public class AdminHomePage {
             try {
 //                new LoginPage(adminHomePageVar.stage);
             } catch (Exception e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
+		
+		adminHomePageVar.pcManagement.setOnAction(e->{
+			try {
+              new PCManagementPage(adminHomePageVar.stage);
+          } catch (Exception e1) {
+              e1.printStackTrace();
+          }
+		});
 	}
 }
