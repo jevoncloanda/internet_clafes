@@ -2,8 +2,23 @@ package controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import admin_view.AdminHomePage;
+import admin_view.AdminHomePage.AdminHomePageVar;
 import database.UserModel;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import model.User;
 import view.LoginPage;
 import view.LoginPage.LoginVar;
@@ -119,11 +134,106 @@ public class UserController {
 						
 					}
 					else if(role.equals("Admin")) {
-						
+						new AdminHomePage(loginVar.stage);
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
+			}
+		});
+	}
+	
+	public void getAllStaffController(AdminHomePageVar adminHomePageVar) {
+		ArrayList<User> userList = new ArrayList<>();
+		
+        rs = userModel.getAllStaffModel();
+        
+        try {
+			while(rs.next()) {
+				String u = rs.getString("UserName");
+				String p = rs.getString("UserPassword");
+				Integer a = rs.getInt("UserAge");
+				String r = rs.getString("UserRole");
+				
+				userList.add(new User(u, p, a, r));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+        adminHomePageVar.vb = new VBox();
+		adminHomePageVar.table = new TableView<User>();
+		adminHomePageVar.username_col = new TableColumn<>("username");
+		adminHomePageVar.age_col = new TableColumn<>("age");
+		adminHomePageVar.role_col = new TableColumn<>("role");
+		adminHomePageVar.table.getColumns().addAll(adminHomePageVar.username_col, adminHomePageVar.age_col, adminHomePageVar.role_col);
+        
+		for (User user : userList) {
+        	adminHomePageVar.table.getItems().add(user);
+		}
+		
+		adminHomePageVar.username_col.setCellValueFactory(new PropertyValueFactory<>("UserName"));
+		adminHomePageVar.age_col.setCellValueFactory(new PropertyValueFactory<>("UserAge"));
+		adminHomePageVar.role_col.setCellValueFactory(new PropertyValueFactory<>("UserRole"));
+
+        
+		adminHomePageVar.table.setMaxHeight(150);
+		adminHomePageVar.username_col.setMinWidth(200);
+		adminHomePageVar.age_col.setPrefWidth(200);
+        
+        
+		adminHomePageVar.vb.getChildren().add(adminHomePageVar.table);
+        // atas kanan bawah kiri
+		adminHomePageVar.vb.setPadding(new Insets(20, 30, 30, 30));
+        
+		adminHomePageVar.bp = new BorderPane();
+		adminHomePageVar.hb = new HBox();
+		adminHomePageVar.vb1 = new VBox();
+		adminHomePageVar.vb2 = new VBox();
+		
+		adminHomePageVar.title1 = new Label("Update User Role");
+		adminHomePageVar.username = new Label("Username");
+		adminHomePageVar.username_tf = new TextField();
+		adminHomePageVar.role = new Label("Role");
+		adminHomePageVar.role_tf = new TextField();
+		adminHomePageVar.btnUpdate = new Button("UPDATE");
+		
+		adminHomePageVar.title2 = new Label("Delete User");
+		adminHomePageVar.username_del = new Label("Username");
+		adminHomePageVar.username_tf2 = new TextField();
+		adminHomePageVar.btnDelete = new Button("DELETE");
+		
+		adminHomePageVar.vb1.getChildren().addAll(adminHomePageVar.title1, adminHomePageVar.username, adminHomePageVar.username_tf, adminHomePageVar.role, adminHomePageVar.role_tf, adminHomePageVar.btnUpdate);
+		adminHomePageVar.vb2.getChildren().addAll(adminHomePageVar.title2, adminHomePageVar.username_del, adminHomePageVar.username_tf2, adminHomePageVar.btnDelete);
+		
+		adminHomePageVar.hb.getChildren().addAll(adminHomePageVar.vb1, adminHomePageVar.vb2);
+		adminHomePageVar.hb.setPadding(new Insets(0, 0, 0, 30));
+		
+		adminHomePageVar.vb1.setSpacing(10);
+		adminHomePageVar.vb2.setSpacing(10);
+		adminHomePageVar.hb.setSpacing(50);
+		
+		adminHomePageVar.bp.setTop(adminHomePageVar.vb);
+		adminHomePageVar.bp.setCenter(adminHomePageVar.hb);
+		adminHomePageVar.scene = new Scene(adminHomePageVar.bp, 650, 650);
+	}
+	
+	public void handling_admin(AdminHomePageVar adminHomePageVar) {		
+		adminHomePageVar.btnUpdate.setOnAction(e -> {
+			String u = adminHomePageVar.username_tf.getText();
+			String newRole = adminHomePageVar.role_tf.getText();
+			if(u.isEmpty()|| newRole.isEmpty()) {
+				adminHomePageVar.alert.setContentText("Fill in all fields!");
+				adminHomePageVar.alert.showAndWait();
+			}
+			else if(!(newRole.equals("Admin") || newRole.equals("Operator") || newRole.equals("Technician"))) {
+				adminHomePageVar.alert.setContentText("Invalid role!");
+				adminHomePageVar.alert.showAndWait();
+			}
+			else if(userModel.checkUserExist(u)) {
+				userModel.updateRole(u, newRole);
+				new AdminHomePage(adminHomePageVar.stage);
 			}
 		});
 	}
