@@ -29,6 +29,20 @@ public class UserModel {
 		}
 	}
 	
+	public int getUserID(String userName) {
+		String query = "SELECT UserID FROM users WHERE UserName = ?";
+		ps = con.prepareStatment(query);
+		try {
+			ps.setString(1, userName);
+			rs = ps.executeQuery();
+			rs.next();
+			return rs.getInt("UserID");
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	public boolean checkUserExist(String userName) {
 		String query = "SELECT EXISTS(SELECT * FROM users WHERE UserName = ?)";
 		ps = con.prepareStatment(query);

@@ -8,23 +8,10 @@ public class JobModel {
 	Connect con = Connect.getInstance();
 	PreparedStatement ps;
 	ResultSet rs;
-	
-	public int getUserID(String userName) {
-		String query = "SELECT UserID FROM users WHERE UserName = ?";
-		ps = con.prepareStatment(query);
-		try {
-			ps.setString(1, userName);
-			rs = ps.executeQuery();
-			rs.next();
-			return rs.getInt("UserID");
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
+	UserModel userModel = new UserModel();
 	
 	public ResultSet getJob(String userName) {
-		int userID = getUserID(userName);
+		int userID = userModel.getUserID(userName);
 		String query = "SELECT * FROM jobs WHERE UserID = ?";
 		ps = con.prepareStatment(query);
 		try {

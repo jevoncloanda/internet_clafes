@@ -8,15 +8,19 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import customer_view.CustomerHomePage;
 import customer_view.CustomerHomePage.CustomerHomePageVar;
+import database.PCBookModel;
 import database.PCModel;
 import database.TransactionModel;
+import database.UserModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.PC;
+import model.PCBook;
 import model.TransactionDetail;
 import model.User;
 
@@ -29,19 +33,38 @@ public class TransactionController {
 			Integer pcID = Integer.parseInt(cv.pcID_tf.getText());
 			String customerName = currentUser.getUserName();
 			Date bookedTime = Date.valueOf(cv.bookedTime_pick.getValue());
-
+			
 			LocalDate today = java.time.LocalDate.now();
-
-			System.out.println(bookedTime + " " + today + " " + bookedTime.compareTo(Date.valueOf(today)));
-
+			
+			PCBookModel pcBookModel = new PCBookModel();
+			UserModel userModel = new UserModel();
+			ResultSet rs = userModel.getUser(currentUser.getUserName(), currentUser.getUserPassword());
+			Integer userID = null;
+			try {
+				rs.next();
+				userID = rs.getInt("UserID");
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			PCBook pcBook;
+			
 			if (!pcModel.checkPCExist(pcID)) {
 				cv.alert.setContentText("PC Not Found");
 				cv.alert.showAndWait();
 			} else if (bookedTime.before(Date.valueOf(today))) {
 				cv.alert.setContentText("Date must be at least today");
 				cv.alert.showAndWait();
-			} else {
+			} 
+			else if (pcBookModel.checkPCBookExist(pcID, bookedTime) == true) {
+				cv.alert.setContentText("PC is already booked for that date!");
+				cv.alert.showAndWait();
+			}
+			else {
 				transactionModel.addTransactionDetail(new TransactionDetail(pcID, customerName, bookedTime));
+				pcBook = new PCBook(pcID, userID, bookedTime);
+				pcBookModel.addPCBook(pcBook);
+				new CustomerHomePage(cv.stage, currentUser);
 			}
 		});
 	}
@@ -52,7 +75,6 @@ public class TransactionController {
 		cv.vb = new VBox();
 		cv.tdTable = new TableView<TransactionDetail>();
 		cv.title1 = new Label("Transaction Table");
-//		cv.tdID_col = new TableColumn<>("Transaction Detail ID");
 		cv.tdPcID_col = new TableColumn<>("PC ID");
 		cv.tdCustomerName_col = new TableColumn<>("Customer Name");
 		cv.tdBookedTime_col = new TableColumn<>("Booked Time");
@@ -62,7 +84,6 @@ public class TransactionController {
 
 		try {
 			while (rs.next()) {
-//				Integer tdID = rs.getInt("TransactionID");
 				Integer tdPcID = rs.getInt("PC_ID");
 				String tdCustomerName = rs.getString("CustomerName");
 				Date tdBookedTime = rs.getDate("BookedTime");

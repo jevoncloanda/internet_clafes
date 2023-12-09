@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import computer_technician_view.ComputerTechnicianHomePage;
 import computer_technician_view.ComputerTechnicianHomePage.ComputerTechnicianHomePageVar;
 import database.JobModel;
+import database.UserModel;
 import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,6 +18,7 @@ import model.User;
 
 public class JobController {
 	JobModel jobModel = new JobModel();
+	UserModel userModel = new UserModel();
 	ResultSet rs;
 	
 	public void viewJobs(ComputerTechnicianHomePageVar technicianHomePageVar, User user) {
@@ -64,7 +66,7 @@ public class JobController {
 	public void completeJob(ComputerTechnicianHomePageVar tv, User user) {
 		tv.btnComplete.setOnAction(e->{
 			Integer id = tv.job_spin.getValue();
-			Integer userid = jobModel.getUserID(user.getUserName());
+			Integer userid = userModel.getUserID(user.getUserName());
 			if(jobModel.checkJobID(id, userid) == false) {
 				tv.alert.setContentText("Invalid Job ID!");
 	        	tv.alert.showAndWait();

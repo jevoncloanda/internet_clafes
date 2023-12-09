@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import model.PC;
 import model.TransactionDetail;
 import model.User;
+import view.LoginPage;
 
 public class CustomerHomePage {
 	PCController pcController = new PCController();
@@ -36,11 +37,11 @@ public class CustomerHomePage {
 		Scene scene;
 		BorderPane bp;
 		GridPane gp;
-		public VBox vb, vb1, vb2;
+		public VBox vb, vb1, vb2, vb3;
 		HBox hb;
 		MenuBar menuBar;
 		Menu menu;
-//		public MenuItem menuItemLogin;
+		public MenuItem menuItemLogout;
 		public Label title1, title2, title3, pcID_lbl;
 		public TextField pcID_tf;
 		public DatePicker bookedTime_pick;
@@ -55,13 +56,13 @@ public class CustomerHomePage {
 		public Alert alert;
 	}
 
-//	private void initializeMenu(CustomerHomePageVar cv) {
-//		cv.menuBar = new MenuBar();
-//		cv.menu = new Menu("Menu");
-//		cv.menuItemRegister = new MenuItem("Register");
-//		cv.menuBar.getMenus().add(cv.menu);
-//		cv.menu.getItems().add(cv.menuItemRegister);
-//	}
+	private void initializeMenu(CustomerHomePageVar cv) {
+		cv.menuBar = new MenuBar();
+		cv.menu = new Menu("Menu");
+		cv.menuItemLogout = new MenuItem("Logout");
+		cv.menuBar.getMenus().add(cv.menu);
+		cv.menu.getItems().add(cv.menuItemLogout);
+	}
 
 	private void initializeAlert(CustomerHomePageVar cv) {
 		cv.alert = new Alert(AlertType.ERROR);
@@ -71,6 +72,7 @@ public class CustomerHomePage {
 	private void initialize(CustomerHomePageVar cv) {
 		cv.bp = new BorderPane();
 		cv.vb2 = new VBox();
+		cv.vb3 = new VBox();
 
 		cv.title3 = new Label("Book a PC");
 		cv.pcID_lbl = new Label("Input the PC ID you want to Book");
@@ -78,12 +80,28 @@ public class CustomerHomePage {
 		cv.bookedTime_pick = new DatePicker();
 		cv.button_book = new Button("Book");
 		
+		initializeMenu(cv);
 		cv.vb2.getChildren().addAll(cv.title3, cv.pcID_lbl, cv.pcID_tf, cv.bookedTime_pick, cv.button_book);
-
-		cv.bp.setTop(cv.vb);
-		cv.bp.setCenter(cv.vb1);
+		cv.vb3.getChildren().addAll(cv.vb, cv.vb1);
+//		cv.bp.setTop(cv.menuBar);
+		
+		cv.bp.setTop(cv.menuBar);
+		cv.bp.setCenter(cv.vb3);
 		cv.bp.setBottom(cv.vb2);
 		cv.scene = new Scene(cv.bp, 700, 700);
+	}
+	
+	private void handle(CustomerHomePageVar cv, User currentUser) {
+		transactionController.handling_bookPC(cv, currentUser);
+		
+		cv.menuItemLogout.setOnAction(e->{
+			try {
+				new LoginPage(cv.stage);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 	}
 	
 	public CustomerHomePage(Stage stage, User currentUser) {
@@ -92,7 +110,7 @@ public class CustomerHomePage {
 		transactionController.handling_viewTransactionDetailByCustomer(cv, currentUser);
 		initialize(cv);
 		initializeAlert(cv);
-		transactionController.handling_bookPC(cv, currentUser);
+		handle(cv, currentUser);
 		cv.stage = stage;
 		cv.stage.setResizable(true);
 		cv.stage.setScene(cv.scene);
