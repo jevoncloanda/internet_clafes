@@ -4,8 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+<<<<<<< Updated upstream
 import admin_view.AdminHomePage;
 import admin_view.AdminHomePage.AdminHomePageVar;
+=======
+import computer_technician_view.ComputerTechnicianHomePage;
+>>>>>>> Stashed changes
 import database.UserModel;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -119,6 +123,7 @@ public class UserController {
 			}
 			else if(userModel.login(u, p) == true) {
 				rs = userModel.getUser(u, p);
+				User user = new User("technician1", "technician1", 20, "Technician");
 				try {
 					rs.next();
 					String role = rs.getString("UserRole");
@@ -129,6 +134,8 @@ public class UserController {
 					}
 					else if(role.equals("ComputerTechnician")) {
 						
+					else if(role.equals("Technician")) {
+						new ComputerTechnicianHomePage(loginVar.stage, user);
 					}
 					else if(role.equals("Operator")) {
 						

@@ -2,8 +2,14 @@
 /computer_technician_view/
 /controller/
 /customer_view/
+<<<<<<< Updated upstream
 /database/
 /model/
 /module-info.class
 /operator_view/
+=======
+/controller/
+/database/
+/computer_technician_view/
+>>>>>>> Stashed changes
 /view/
