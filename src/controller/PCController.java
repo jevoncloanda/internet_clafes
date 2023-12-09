@@ -1,57 +1,54 @@
 package controller;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import customer_view.CustomerHomePage.CustomerHomePageVar;
-import database.Connect;
+import database.PCModel;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.PC;
 
 public class PCController {
+	PCModel pcModel = new PCModel();
 	public void handling_addPC() {
 
 	}
 
 	public void handling_viewPC(CustomerHomePageVar cv) {
 		ArrayList<PC> pcList = new ArrayList<>();
-		Connect con = Connect.getInstance();
 
 		cv.vb1 = new VBox();
 		cv.table = new TableView<PC>();
-		username_col = new TableColumn<>("username");
-		age_col = new TableColumn<>("age");
-		table.getColumns().addAll(username_col, age_col);
+		cv.pcID_col = new TableColumn<>("PC ID");
+		cv.pcCondition_col = new TableColumn<>("Status");
+		cv.table.getColumns().addAll(cv.pcID_col, cv.pcCondition_col);
 
-		ResultSet rs = con.selectData("SELECT * FROM USER");
+		ResultSet rs = pcModel.getAllPC();
 
 		try {
 			while (rs.next()) {
-				String u = rs.getString("Username");
-				String p = rs.getString("Password");
-				Integer a = rs.getInt("Age");
+				Integer i = rs.getInt("PC_ID");
+				String c = rs.getString("PC_Condition");
 
-				userList.add(new User(u, p, a));
+				pcList.add(new PC(i, c));
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		for (User user : userList) {
-			table.getItems().add(user);
+		for (PC pc : pcList) {
+			cv.table.getItems().add(pc);
 		}
 
-		username_col.setCellValueFactory(new PropertyValueFactory<>("username"));
-		age_col.setCellValueFactory(new PropertyValueFactory<>("age"));
+		cv.pcID_col.setCellValueFactory(new PropertyValueFactory<>("PC_ID"));
+		cv.pcCondition_col.setCellValueFactory(new PropertyValueFactory<>("PC_Condition"));
 
-		table.setMaxHeight(150);
-		username_col.setMinWidth(200);
-		age_col.setPrefWidth(200);
-
-		vb.getChildren().add(table);
-		// atas kanan bawah kiri
-		vb.setPadding(new Insets(20, 30, 30, 30));
+		cv.vb1.getChildren().add(cv.table);
 	}
 
 }

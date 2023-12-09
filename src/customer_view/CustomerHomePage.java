@@ -2,26 +2,32 @@ package customer_view;
 
 import java.util.ArrayList;
 
+import controller.PCController;
+import controller.TransactionController;
 import database.Connect;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.PC;
+import model.User;
 
 public class CustomerHomePage {
+	PCController pcController = new PCController();
+	TransactionController transactionController = new TransactionController();
 
 	public class CustomerHomePageVar {
 		public Stage stage;
@@ -29,55 +35,59 @@ public class CustomerHomePage {
 		BorderPane bp;
 		GridPane gp;
 		public VBox vb1, vb2;
+		HBox hb;
 		MenuBar menuBar;
 		Menu menu;
-		public MenuItem menuItemLogin;
+//		public MenuItem menuItemLogin;
+		Label title, pcID;
+		public TextField pcID_tf;
+		public DatePicker bookedTime_pick;
 		public TableView<PC> table;
-		public TableColumn<PC, Integer> pcID_col; 
-		public TableColumn<PC, String> pcStatus_col;
+		public TableColumn<PC, Integer> pcID_col;
+		public TableColumn<PC, String> pcCondition_col;
+		public Button button_book;
+		public Alert alert;
+	}
+
+//	private void initializeMenu(CustomerHomePageVar cv) {
+//		cv.menuBar = new MenuBar();
+//		cv.menu = new Menu("Menu");
+//		cv.menuItemRegister = new MenuItem("Register");
+//		cv.menuBar.getMenus().add(cv.menu);
+//		cv.menu.getItems().add(cv.menuItemRegister);
+//	}
+
+	private void initializeAlert(CustomerHomePageVar cv) {
+		cv.alert = new Alert(AlertType.ERROR);
+		cv.alert.setTitle("ERROR");
+	}
+
+	private void initialize(CustomerHomePageVar cv) {
+		cv.bp = new BorderPane();
+		cv.vb2 = new VBox();
+
+		cv.title = new Label("Book a PC");
+		cv.pcID = new Label("Input the PC ID you want to Book");
+		cv.pcID_tf = new TextField();
+		cv.bookedTime_pick = new DatePicker();
+		cv.button_book = new Button("Book");
+		
+		cv.vb2.getChildren().addAll(cv.title, cv.pcID, cv.pcID_tf, cv.bookedTime_pick, cv.button_book);
+
+		cv.bp.setTop(cv.vb1);
+		cv.bp.setCenter(cv.vb2);
+		cv.scene = new Scene(cv.bp, 500, 500);
 	}
 	
-	private void initialize() {
-		getData();
-		
-		bp = new BorderPane();
-		hb = new HBox();
-		vb1 = new VBox();
-		vb2 = new VBox();
-		
-		title1 = new Label("Update User");
-		username = new Label("Username");
-		username_tf = new TextField();
-		password = new Label("Password");
-		pass_pf = new PasswordField();
-		btnUpdate = new Button("UPDATE");
-		
-		title2 = new Label("Delete User");
-		username_del = new Label("Username");
-		username_tf2 = new TextField();
-		btnDelete = new Button("DELETE");
-		
-		vb1.getChildren().addAll(title1, username, username_tf, password, pass_pf, btnUpdate);
-		vb2.getChildren().addAll(title2, username_del, username_tf2, btnDelete);
-		
-		hb.getChildren().addAll(vb1, vb2);
-		hb.setPadding(new Insets(0, 0, 0, 30));
-		
-		vb1.setSpacing(10);
-		vb2.setSpacing(10);
-		hb.setSpacing(50);
-		
-		bp.setTop(vb);
-		bp.setCenter(hb);
-		scene = new Scene(bp, 650, 650);
-	}
-	
-	public HomePage(Stage stage) {
-		initialize();
-		setStyle();
-		this.stage = stage;
-		this.stage.setResizable(false);
-		this.stage.setScene(scene);
-		this.stage.show();
+	public CustomerHomePage(Stage stage, User currentUser) {
+		CustomerHomePageVar cv = new CustomerHomePageVar();
+		pcController.handling_viewPC(cv);
+		initialize(cv);
+		initializeAlert(cv);
+		transactionController.handling_bookPC(cv, currentUser);
+		cv.stage = stage;
+		cv.stage.setResizable(false);
+		cv.stage.setScene(cv.scene);
+		cv.stage.show();
 	}
 }

@@ -3,6 +3,7 @@ package controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import customer_view.CustomerHomePage;
 import database.UserModel;
 import model.User;
 import view.LoginPage;
@@ -11,6 +12,7 @@ import view.RegisterPage.RegisterVar;
 
 public class UserController {
 	UserModel userModel = new UserModel();
+	User currentUser;
 	ResultSet rs;
 	
 	public void handling_regis(RegisterVar registerVar) {
@@ -106,13 +108,17 @@ public class UserController {
 				rs = userModel.getUser(u, p);
 				try {
 					rs.next();
+					String username = rs.getString("UserName");
+					String password = rs.getString("UserPassword");
+					Integer age = rs.getInt("UserAge");
 					String role = rs.getString("UserRole");
+					currentUser = new User(username, password, age, role);
 					
 					// tinggal tambahin new ..HomePage() tiap role nya disini
 					if(role.equals("Customer")) {
-						
+						new CustomerHomePage(loginVar.stage, currentUser);
 					}
-					else if(role.equals("ComputerTechnician")) {
+					else if(role.equals("Technician")) {
 						
 					}
 					else if(role.equals("Operator")) {

@@ -68,11 +68,6 @@ public class UserModel {
 			ps.setString(1, userName);
 			ps.setString(2, pass);
 			rs = ps.executeQuery();
-//			rs.next();
-//			rs.getString("UserName");
-//			rs.getString("UserPassword");
-//			rs.getString("UserAge");
-//			rs.getString("UserRole");
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
