@@ -22,6 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.User;
+import operator_view.OperatorHomePage;
 import view.LoginPage;
 import view.LoginPage.LoginVar;
 import view.RegisterPage.RegisterVar;
@@ -139,7 +140,7 @@ public class UserController {
 						new ComputerTechnicianHomePage(loginVar.stage, currentUser);
 					}
 					else if(role.equals("Operator")) {
-						
+						new OperatorHomePage(loginVar.stage, currentUser);					
 					}
 					else if(role.equals("Admin")) {
 						new AdminHomePage(loginVar.stage);

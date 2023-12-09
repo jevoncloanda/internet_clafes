@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.PCBook;
+import model.User;
 
 public class PCBookModel {
 	Connect con = Connect.getInstance();
@@ -43,5 +44,18 @@ public class PCBookModel {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public ResultSet getAllPCBooks() {
+		String query = "SELECT * FROM pcbooks";
+		
+		ps = con.prepareStatment(query);
+		
+		try {
+			rs = ps.executeQuery();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
 	}
 }

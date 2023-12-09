@@ -62,7 +62,7 @@ public class TransactionController {
 			}
 			else {
 				transactionModel.addTransactionDetail(new TransactionDetail(pcID, customerName, bookedTime));
-				pcBook = new PCBook(pcID, userID, bookedTime);
+				pcBook = new PCBook(0, pcID, userID, bookedTime);
 				pcBookModel.addPCBook(pcBook);
 				new CustomerHomePage(cv.stage, currentUser);
 			}
