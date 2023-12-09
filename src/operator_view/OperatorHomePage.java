@@ -37,8 +37,8 @@ public class OperatorHomePage {
 		MenuBar menuBar;
 		Menu menu;
 		public MenuItem menuItemLogout;
-		public Label title1, title2, title3, pcID_lbl;
-		public TextField pcID_tf;
+		public Label title1, title2, title3, bookID_lbl;
+		public TextField bookID_tf;
 		public TableView<PCBook> pcBookTable;
 		public TableColumn<PCBook, Integer> pbPcID_col, pbUserID_col, pbBookID_col;
 		public TableColumn<PCBook, Date> pbBookedDate_col;
@@ -64,12 +64,12 @@ public class OperatorHomePage {
 		ov.vb2 = new VBox();
 
 		ov.title2 = new Label("Manage a Booking");
-		ov.pcID_lbl = new Label("Input the Book ID");
-		ov.pcID_tf = new TextField();
+		ov.bookID_lbl = new Label("Input the Book ID");
+		ov.bookID_tf = new TextField();
 		ov.button_finish = new Button("Finish Booking");
 		ov.button_cancel = new Button("Cancel Booking");
 
-		ov.vb2.getChildren().addAll(ov.title2, ov.pcID_lbl, ov.pcID_tf, ov.button_finish, ov.button_cancel);
+		ov.vb2.getChildren().addAll(ov.title2, ov.bookID_lbl, ov.bookID_tf, ov.button_finish, ov.button_cancel);
 		
 		initializeMenu(ov);
 		ov.bp.setTop(ov.menuBar);
@@ -79,6 +79,8 @@ public class OperatorHomePage {
 	}
 	
 	private void handle(OperatorHomePageVar ov, User currentUser) {
+		pcBookController.handling_finishBook(ov, currentUser);
+		pcBookController.handling_cancelBook(ov, currentUser);
 		ov.menuItemLogout.setOnAction(e->{
 			try {
 				new LoginPage(ov.stage);

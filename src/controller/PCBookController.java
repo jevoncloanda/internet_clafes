@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import database.PCBookModel;
+import database.TransactionModel;
+import database.UserModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -13,12 +15,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.PCBook;
 import model.TransactionDetail;
+import model.TransactionHeader;
 import model.User;
+import operator_view.OperatorHomePage;
 import operator_view.OperatorHomePage.OperatorHomePageVar;
 
 public class PCBookController {
 	PCBookModel pcBookModel = new PCBookModel();
-	
+	UserModel userModel = new UserModel();
+	TransactionModel transactionModel = new TransactionModel();
 	public void handling_viewAllPCBooks(OperatorHomePageVar ov) {
 		ArrayList<PCBook> pcBookList = new ArrayList<>();
 
@@ -57,5 +62,52 @@ public class PCBookController {
 		ov.pbBookedDate_col.setCellValueFactory(new PropertyValueFactory<>("BookedDate"));
 
 		ov.vb1.getChildren().addAll(ov.title1, ov.pcBookTable);
+	}
+
+	public void handling_finishBook(OperatorHomePageVar ov, User currentUser) {
+		ov.button_finish.setOnAction(e -> {
+			Integer bookID = Integer.parseInt(ov.bookID_tf.getText());
+			String staffName = currentUser.getUserName();
+			Integer userID = userModel.getUserID(staffName);
+					
+			ResultSet rs = pcBookModel.getPCBookByID(bookID);
+			
+			Date transactionDate = null;
+			
+			try {
+				rs.next();
+			 	transactionDate = rs.getDate("BookedDate");
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			if (!pcBookModel.checkPCBookIDExist(bookID)) {
+				ov.alert.setContentText("Booking Not Found");
+				ov.alert.showAndWait();
+			}
+			else {
+				pcBookModel.deletePCBook(bookID);
+				transactionModel.addTransactionHeader(new TransactionHeader(0, userID, staffName, transactionDate));
+				new OperatorHomePage(ov.stage, currentUser);				
+			}
+			
+		});
+	}
+	
+	public void handling_cancelBook(OperatorHomePageVar ov, User currentUser) {
+		ov.button_cancel.setOnAction(e -> {
+			Integer bookID = Integer.parseInt(ov.bookID_tf.getText());
+			
+			if (!pcBookModel.checkPCBookIDExist(bookID)) {
+				ov.alert.setContentText("Booking Not Found");
+				ov.alert.showAndWait();
+			}
+			else {
+				pcBookModel.deletePCBook(bookID);
+				new OperatorHomePage(ov.stage, currentUser);				
+			}
+			
+		});
 	}
 }

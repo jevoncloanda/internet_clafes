@@ -124,7 +124,6 @@ public class UserController {
 			}
 			else if(userModel.login(u, p) == true) {
 				rs = userModel.getUser(u, p);
-				User user = new User("technician1", "technician1", 20, "Technician");
 				try {
 					rs.next();
 					String username = rs.getString("UserName");

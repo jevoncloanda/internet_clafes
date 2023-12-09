@@ -56,7 +56,7 @@ public class TransactionController {
 				cv.alert.setContentText("Date must be at least today");
 				cv.alert.showAndWait();
 			} 
-			else if (pcBookModel.checkPCBookExist(pcID, bookedTime) == true) {
+			else if (pcBookModel.checkPCBookExist(pcID, bookedTime)) {
 				cv.alert.setContentText("PC is already booked for that date!");
 				cv.alert.showAndWait();
 			}

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.TransactionDetail;
+import model.TransactionHeader;
 import model.User;
 
 public class TransactionModel {
@@ -23,6 +24,23 @@ public class TransactionModel {
 			ps.setInt(1, td.getPC_ID());
 			ps.setString(2, td.getCustomerName());
 			ps.setDate(3, td.getBookedTime());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void addTransactionHeader(TransactionHeader th) {
+		
+		String query ="INSERT INTO transactionheaders Value('0',?,?,?)";
+		
+		ps = con.prepareStatment(query);
+		
+		try {
+			ps.setInt(1, th.getStaffID());
+			ps.setString(2, th.getStaffName());
+			ps.setDate(3, th.getTransactionDate());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
