@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.TransactionDetail;
+import model.User;
 
 public class TransactionModel {
 	Connect con = Connect.getInstance();
@@ -26,6 +27,20 @@ public class TransactionModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public ResultSet getTransactionDetailByCustomer(User currentUser) {
+		String query = "SELECT * FROM transactiondetails WHERE CustomerName = ?";
+		
+		ps = con.prepareStatment(query);
+		
+		try {
+			ps.setString(1, currentUser.getUserName());
+			rs = ps.executeQuery();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
 	}
 
 }
