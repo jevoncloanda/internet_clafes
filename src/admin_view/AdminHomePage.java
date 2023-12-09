@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.User;
 import view.RegisterPage;
+import view.LoginPage;
 import view.LoginPage.LoginVar;
 
 public class AdminHomePage {
@@ -42,16 +43,16 @@ public class AdminHomePage {
 		public Button btnUpdate, btnDelete;
 		public MenuBar menuBar;
 		public Menu menu;
-		public MenuItem menuItemRegister;
+		public MenuItem menuItemLogout;
 		public Alert alert;
 	}
 	
-	private void initializeMenu(AdminHomePageVar adminHomePageVar) {
+	public void initializeMenu(AdminHomePageVar adminHomePageVar) {
 		adminHomePageVar.menuBar = new MenuBar();
 		adminHomePageVar.menu = new Menu("Menu");
-		adminHomePageVar.menuItemRegister = new MenuItem("Register");
+		adminHomePageVar.menuItemLogout = new MenuItem("Logout");
 		adminHomePageVar.menuBar.getMenus().add(adminHomePageVar.menu);
-		adminHomePageVar.menu.getItems().add(adminHomePageVar.menuItemRegister);
+		adminHomePageVar.menu.getItems().add(adminHomePageVar.menuItemLogout);
 	}
 	
 	private void initializeAlert(AdminHomePageVar adminHomePageVar) {
@@ -60,6 +61,7 @@ public class AdminHomePage {
 	}
 	
 	private void initialize(AdminHomePageVar adminHomePageVar) {
+		initializeMenu(adminHomePageVar);
 		viewAllStaff(adminHomePageVar);
 		initializeAlert(adminHomePageVar);
 		handle(adminHomePageVar);
@@ -81,6 +83,15 @@ public class AdminHomePage {
 	
 	private void handle(AdminHomePageVar adminHomePageVar) {
 		userController.handling_admin(adminHomePageVar);
+		
+		adminHomePageVar.menuItemLogout.setOnAction(e->{
+            try {
+                new LoginPage(adminHomePageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 	}
 	
 	

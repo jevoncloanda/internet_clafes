@@ -147,6 +147,7 @@ public class UserController {
 	
 	public void getAllStaffController(AdminHomePageVar adminHomePageVar) {
 		ArrayList<User> userList = new ArrayList<>();
+		AdminHomePage adminPage = null;
 		
         rs = userModel.getAllStaffModel();
         
@@ -186,7 +187,6 @@ public class UserController {
         
         
 		adminHomePageVar.vb.getChildren().add(adminHomePageVar.table);
-        // atas kanan bawah kiri
 		adminHomePageVar.vb.setPadding(new Insets(20, 30, 30, 30));
         
 		adminHomePageVar.bp = new BorderPane();
@@ -216,8 +216,9 @@ public class UserController {
 		adminHomePageVar.vb2.setSpacing(10);
 		adminHomePageVar.hb.setSpacing(50);
 		
-		adminHomePageVar.bp.setTop(adminHomePageVar.vb);
-		adminHomePageVar.bp.setCenter(adminHomePageVar.hb);
+		adminHomePageVar.bp.setTop(adminHomePageVar.menuBar);
+		adminHomePageVar.bp.setCenter(adminHomePageVar.vb);
+		adminHomePageVar.bp.setBottom(adminHomePageVar.hb);
 		adminHomePageVar.scene = new Scene(adminHomePageVar.bp, 650, 650);
 	}
 	
