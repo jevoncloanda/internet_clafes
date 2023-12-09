@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import customer_view.CustomerHomePage;
 import admin_view.AdminHomePage;
+import admin_view.AddJobPage.AddJobPageVar;
 import admin_view.AdminHomePage.AdminHomePageVar;
 import computer_technician_view.ComputerTechnicianHomePage;
 import database.UserModel;
@@ -246,5 +247,47 @@ public class UserController {
 				new AdminHomePage(adminHomePageVar.stage);
 			}
 		});
+	}
+
+	public void getAllTechnicians(AddJobPageVar ajv) {
+		ArrayList<User> userList = new ArrayList<>();
+		AdminHomePage adminPage = null;
+		
+        rs = userModel.getAllTechnicians();
+        
+        try {
+			while(rs.next()) {
+				String u = rs.getString("UserName");
+				String p = rs.getString("UserPassword");
+				Integer a = rs.getInt("UserAge");
+				String r = rs.getString("UserRole");
+				
+				userList.add(new User(u, p, a, r));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+        ajv.vb = new VBox();
+        ajv.table = new TableView<User>();
+        ajv.username_col = new TableColumn<>("username");
+        ajv.age_col = new TableColumn<>("age");
+        ajv.role_col = new TableColumn<>("role");
+        ajv.table.getColumns().addAll(ajv.username_col, ajv.age_col, ajv.role_col);
+        
+		for (User user : userList) {
+			ajv.table.getItems().add(user);
+		}
+		
+		ajv.username_col.setCellValueFactory(new PropertyValueFactory<>("UserName"));
+		ajv.age_col.setCellValueFactory(new PropertyValueFactory<>("UserAge"));
+		ajv.role_col.setCellValueFactory(new PropertyValueFactory<>("UserRole"));
+        
+		ajv.table.setMaxHeight(150);
+		ajv.username_col.setMinWidth(200);
+		ajv.age_col.setPrefWidth(200);
+        
+		ajv.vb.getChildren().add(ajv.table);
 	}
 }

@@ -43,16 +43,18 @@ public class AdminHomePage {
 		public Button btnUpdate, btnDelete;
 		public MenuBar menuBar;
 		public Menu menu;
-		public MenuItem menuItemLogout;
+		public MenuItem logout, addJob;
 		public Alert alert;
 	}
 	
 	public void initializeMenu(AdminHomePageVar adminHomePageVar) {
 		adminHomePageVar.menuBar = new MenuBar();
 		adminHomePageVar.menu = new Menu("Menu");
-		adminHomePageVar.menuItemLogout = new MenuItem("Logout");
+		adminHomePageVar.logout = new MenuItem("Logout");
+		adminHomePageVar.addJob = new MenuItem("Add Technician Job");
 		adminHomePageVar.menuBar.getMenus().add(adminHomePageVar.menu);
-		adminHomePageVar.menu.getItems().add(adminHomePageVar.menuItemLogout);
+		adminHomePageVar.menu.getItems().addAll(adminHomePageVar.logout,
+				adminHomePageVar.addJob);
 	}
 	
 	private void initializeAlert(AdminHomePageVar adminHomePageVar) {
@@ -84,9 +86,18 @@ public class AdminHomePage {
 	private void handle(AdminHomePageVar adminHomePageVar) {
 		userController.handling_admin(adminHomePageVar);
 		
-		adminHomePageVar.menuItemLogout.setOnAction(e->{
+		adminHomePageVar.logout.setOnAction(e->{
             try {
                 new LoginPage(adminHomePageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		adminHomePageVar.addJob.setOnAction(e->{
+            try {
+//                new LoginPage(adminHomePageVar.stage);
             } catch (Exception e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

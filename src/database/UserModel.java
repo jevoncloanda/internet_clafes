@@ -96,11 +96,6 @@ public class UserModel {
 			ps.setString(1, newRole);
 			ps.setString(2, userName);
 			ps.executeUpdate();
-//			rs.next();
-//			rs.getString("UserName");
-//			rs.getString("UserPassword");
-//			rs.getString("UserAge");
-//			rs.getString("UserRole");
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -108,6 +103,19 @@ public class UserModel {
 	
 	public ResultSet getAllStaffModel() {
 		String query = "SELECT * FROM users WHERE UserRole = 'Admin' OR UserRole = 'Technician' OR UserRole = 'Operator'";
+		
+		ps = con.prepareStatment(query);
+		
+		try {
+			rs = ps.executeQuery();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ResultSet getAllTechnicians() {
+		String query = "SELECT * FROM users WHERE UserRole = 'Technician'";
 		
 		ps = con.prepareStatment(query);
 		

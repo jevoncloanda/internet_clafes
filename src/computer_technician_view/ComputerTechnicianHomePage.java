@@ -80,7 +80,7 @@ public class ComputerTechnicianHomePage {
 		tv.bp.setTop(tv.menuBar);
 		tv.bp.setCenter(tv.vb1);
 		tv.bp.setBottom(tv.vb2);
-		tv.scene = new Scene(tv.bp, 650, 650);
+		tv.scene = new Scene(tv.bp, 600, 600);
 	}
 	
 	private void handle(ComputerTechnicianHomePageVar tv, User user) {
