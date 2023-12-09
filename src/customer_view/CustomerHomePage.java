@@ -86,7 +86,7 @@ public class CustomerHomePage {
 		initializeAlert(cv);
 		transactionController.handling_bookPC(cv, currentUser);
 		cv.stage = stage;
-		cv.stage.setResizable(false);
+		cv.stage.setResizable(true);
 		cv.stage.setScene(cv.scene);
 		cv.stage.show();
 	}

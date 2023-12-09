@@ -1,3 +1,9 @@
-/database/
+/admin_view/
+/computer_technician_view/
 /controller/
 /customer_view/
+/database/
+/model/
+/module-info.class
+/operator_view/
+/view/

@@ -3,6 +3,7 @@ package controller;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import customer_view.CustomerHomePage.CustomerHomePageVar;
 import database.PCModel;
@@ -20,19 +21,14 @@ public class TransactionController {
 			String customerName = currentUser.getUserName();
 			Date bookedTime = Date.valueOf(cv.bookedTime_pick.getValue());
 
-			Date today = new Date(System.currentTimeMillis());
+			LocalDate today = java.time.LocalDate.now();
 
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-			String strBookedTime = dateFormat.format(bookedTime);
-			String strToday = dateFormat.format(today);
-
-			System.out.println(strBookedTime + " " + strToday + " " + bookedTime.compareTo(today));
-			System.out.println(!strBookedTime.equals(strToday));
+			System.out.println(bookedTime + " " + today + " " + bookedTime.compareTo(Date.valueOf(today)));
 
 			if (!pcModel.checkPCExist(pcID)) {
 				cv.alert.setContentText("PC Not Found");
 				cv.alert.showAndWait();
-			} else if (bookedTime.before(today)) {
+			} else if (bookedTime.before(Date.valueOf(today))) {
 				cv.alert.setContentText("Date must be at least today");
 				cv.alert.showAndWait();
 			} else {
