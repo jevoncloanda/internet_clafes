@@ -1,45 +1,3 @@
-<<<<<<< Updated upstream
-//package customer_view;
-//
-//import java.util.ArrayList;
-//
-//import database.Connect;
-//import javafx.scene.Scene;
-//import javafx.scene.control.Alert;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.Label;
-//import javafx.scene.control.Menu;
-//import javafx.scene.control.MenuBar;
-//import javafx.scene.control.MenuItem;
-//import javafx.scene.control.PasswordField;
-//import javafx.scene.control.Spinner;
-//import javafx.scene.control.TableColumn;
-//import javafx.scene.control.TableView;
-//import javafx.scene.control.TextField;
-//import javafx.scene.layout.BorderPane;
-//import javafx.scene.layout.GridPane;
-//import javafx.scene.layout.VBox;
-//import javafx.stage.Stage;
-//import model.PC;
-//
-//public class CustomerHomePage {
-//
-//	public class CustomerHomePageVar {
-//		public Stage stage;
-//		Scene scene;
-//		BorderPane bp;
-//		GridPane gp;
-//		public VBox vb1, vb2;
-//		MenuBar menuBar;
-//		Menu menu;
-//		public MenuItem menuItemLogin;
-//		public TableView<PC> table;
-//		public TableColumn<PC, Integer> pcID_col; 
-//		public TableColumn<PC, String> pcStatus_col;
-//	}
-//	
-//	private void initialize() {
-=======
 package customer_view;
 
 import java.util.ArrayList;
@@ -80,7 +38,6 @@ public class CustomerHomePage {
 	}
 	
 	private void initialize() {
->>>>>>> Stashed changes
 //		getData();
 //		
 //		bp = new BorderPane();
@@ -113,13 +70,8 @@ public class CustomerHomePage {
 //		bp.setTop(vb);
 //		bp.setCenter(hb);
 //		scene = new Scene(bp, 650, 650);
-<<<<<<< Updated upstream
-//	}
-//	
-=======
 	}
 	
->>>>>>> Stashed changes
 //	public HomePage(Stage stage) {
 //		initialize();
 //		setStyle();
@@ -128,8 +80,5 @@ public class CustomerHomePage {
 //		this.stage.setScene(scene);
 //		this.stage.show();
 //	}
-<<<<<<< Updated upstream
-//}
-=======
+
 }
->>>>>>> Stashed changes

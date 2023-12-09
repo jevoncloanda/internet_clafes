@@ -4,12 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-<<<<<<< Updated upstream
 import admin_view.AdminHomePage;
 import admin_view.AdminHomePage.AdminHomePageVar;
-=======
 import computer_technician_view.ComputerTechnicianHomePage;
->>>>>>> Stashed changes
 import database.UserModel;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -132,8 +129,6 @@ public class UserController {
 					if(role.equals("Customer")) {
 						
 					}
-					else if(role.equals("ComputerTechnician")) {
-						
 					else if(role.equals("Technician")) {
 						new ComputerTechnicianHomePage(loginVar.stage, user);
 					}
