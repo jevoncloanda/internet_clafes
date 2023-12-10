@@ -26,25 +26,95 @@ import operator_view.OperatorHomePage.OperatorHomePageVar;
 
 public class PCController {
 	PCModel pcModel = new PCModel();
+	public boolean checkIfStringContainsLetters(String str) {
+		str = str.toUpperCase();
+		if(str.contains("A")==true
+				|| str.contains("B")==true
+				|| str.contains("C")==true
+				|| str.contains("D")==true
+				|| str.contains("E")==true
+				|| str.contains("F")==true
+				|| str.contains("G")==true
+				|| str.contains("H")==true
+				|| str.contains("I")==true
+				|| str.contains("J")==true
+				|| str.contains("K")==true
+				|| str.contains("L")==true
+				|| str.contains("M")==true
+				|| str.contains("N")==true
+				|| str.contains("O")==true
+				|| str.contains("P")==true
+				|| str.contains("Q")==true
+				|| str.contains("R")==true
+				|| str.contains("S")==true
+				|| str.contains("T")==true
+				|| str.contains("U")==true
+				|| str.contains("V")==true
+				|| str.contains("W")==true
+				|| str.contains("X")==true
+				|| str.contains("Y")==true
+				|| str.contains("Z")==true
+				|| str.contains("`")==true
+				|| str.contains("~")==true
+				|| str.contains("!")==true
+				|| str.contains("@")==true
+				|| str.contains("#")==true
+				|| str.contains("$")==true
+				|| str.contains("%")==true
+				|| str.contains("^")==true
+				|| str.contains("&")==true
+				|| str.contains("*")==true
+				|| str.contains("(")==true
+				|| str.contains(")")==true
+				|| str.contains("-")==true
+				|| str.contains("_")==true
+				|| str.contains("+")==true
+				|| str.contains("=")==true
+				|| str.contains("{")==true
+				|| str.contains("[")==true
+				|| str.contains("}")==true
+				|| str.contains("]")==true
+				|| str.contains("|")==true
+				|| str.contains("\\")==true
+				|| str.contains(":")==true
+				|| str.contains(";")==true
+				|| str.contains("\"")==true
+				|| str.contains("'")==true
+				|| str.contains("<")==true
+				|| str.contains(",")==true
+				|| str.contains(">")==true
+				|| str.contains(".")==true
+				|| str.contains("?")==true
+				|| str.contains("/")==true) {
+			return true;
+		}
+		return false;
+	}
 	public void handling_addPC(PCManagementPageVar pcManagementPageVar) {
 		pcManagementPageVar.button_add.setOnAction(e -> {
-			String pcCondition = pcManagementPageVar.pcCondition_tf.getText();
-			
-			if(pcCondition.isEmpty()) {
-				pcManagementPageVar.alert.setContentText("Fill in all fields!");
-				pcManagementPageVar.alert.showAndWait();
+			String pcIDText = pcManagementPageVar.pcIDAdd_tf.getText().toUpperCase();
+			Integer pcID = 0;
+			if(checkIfStringContainsLetters(pcIDText)==false) {
+				pcID = Integer.parseInt(pcIDText);
 			}
 			
-			else if(!(pcCondition.equals("Usable") || pcCondition.equals("Maintenance") || pcCondition.equals("Broken"))) {
-				pcManagementPageVar.alert.setContentText("Invalid Condition!");
+			if(checkIfStringContainsLetters(pcIDText)==true) {
+				pcManagementPageVar.alert.setContentText("Input must only contain numbers!");
 				pcManagementPageVar.alert.showAndWait();
 			}
-			
+			else if(pcIDText == null) {
+				pcManagementPageVar.alert.setContentText("Please fill in all fields!");
+				pcManagementPageVar.alert.showAndWait();
+			}
+			else if(pcModel.checkPCExist(pcID)==true) {
+				pcManagementPageVar.alert.setContentText("PC ID already exists!");
+				pcManagementPageVar.alert.showAndWait();
+			}
 			else {
-				pcModel.addPC(new PC(0, pcCondition));
+				pcModel.addPC(pcID);
 				new PCManagementPage(pcManagementPageVar.stage);
 			}
-	});
+		});
 	}
 	
 	public void handling_viewAllPCManagement(PCManagementPageVar pcManagementPageVar) {
@@ -102,24 +172,66 @@ public class PCController {
 	
 	public void handlingUpdatePC(PCManagementPageVar pcManagementPageVar) {
 		pcManagementPageVar.button_update.setOnAction(e->{
-			Integer id = Integer.parseInt(pcManagementPageVar.pcID_tf.getText()) ;
+			String pcIDText = pcManagementPageVar.pcID_tf.getText();
+			Integer id=0;
 			String newCondition = pcManagementPageVar.newPCCondition_tf.getText();
-			
-			if(id == null|| newCondition.isEmpty()) {
-				pcManagementPageVar.alert.setContentText("Fill in all fields!");
-				pcManagementPageVar.alert.showAndWait();
-			}
-			else if(!(newCondition.equals("Usable") || newCondition.equals("Maintenance") || newCondition.equals("Broken"))) {
-				pcManagementPageVar.alert.setContentText("Invalid Condition!");
-				pcManagementPageVar.alert.showAndWait();
+			if(checkIfStringContainsLetters(pcIDText)==false) {
+				id = Integer.parseInt(pcIDText);
 			}
 			
-			else if(pcModel.checkPCExist(id)) {
+			if(checkIfStringContainsLetters(pcIDText)==true) {
+				pcManagementPageVar.alert.setContentText("Input must only contain numbers!");
+				pcManagementPageVar.alert.showAndWait();
+			}
+			else if(pcIDText.isEmpty() || newCondition.isEmpty()) {
+				pcManagementPageVar.alert.setContentText("Please fill all the fields!");
+				pcManagementPageVar.alert.showAndWait();
+			}
+			else if(!newCondition.equals("Usable") && !newCondition.equals("Maintenance") && !newCondition.equals("Broken")) {
+				pcManagementPageVar.alert.setContentText("Condition must either be Usable / Maintenance / Broken !");
+				pcManagementPageVar.alert.showAndWait();
+			}
+			else if(pcModel.checkPCExist(id)==false) {
+				pcManagementPageVar.alert.setContentText("Invalid PC ID!");
+				pcManagementPageVar.alert.showAndWait();
+			}
+			else if(pcModel.checkPCExist(id)==true) {
 				pcModel.updatePC(id, newCondition);
 				new PCManagementPage(pcManagementPageVar.stage);
 			}
-			
 		});
+//		pcManagementPageVar.button_update.setOnAction(e->{			
+//			String pcIDText = pcManagementPageVar.pcID_tf.getText();
+//			Integer id = 0;
+//			String newCondition = pcManagementPageVar.newPCCondition_tf.getText();
+//			if(checkIfStringContainsLetters(pcIDText)==true) {
+//				pcManagementPageVar.alert.setContentText("Input must only contain numbers!");
+//				pcManagementPageVar.alert.showAndWait();
+//			}
+//			else if(checkIfStringContainsLetters(pcIDText)==false) {
+//				id = Integer.parseInt(pcIDText);
+//			}
+//			id = Integer.parseInt(pcIDText);
+//			if(pcIDText.isEmpty() || newCondition.isEmpty()) {
+//				pcManagementPageVar.alert.setContentText("Fill in all fields!");
+//				pcManagementPageVar.alert.showAndWait();
+//			}
+//			else if(!(newCondition.equals("Usable") || newCondition.equals("Maintenance") || newCondition.equals("Broken"))) {
+//				pcManagementPageVar.alert.setContentText("Invalid Condition!");
+//				pcManagementPageVar.alert.showAndWait();
+//			}
+//			else if(!pcModel.checkPCExist(id)==true) {
+//				pcManagementPageVar.alert.setContentText("Invalid PC ID!");
+//				pcManagementPageVar.alert.showAndWait();
+//			}
+//			else {
+//				pcModel.updatePC(id, newCondition);
+//				new PCManagementPage(pcManagementPageVar.stage);
+//			}
+//			
+//		});
+	}
+	
 	public void handling_viewPC(MakeReportPageVar mrp) {
 		ArrayList<PC> pcList = new ArrayList<>();
 

@@ -69,7 +69,7 @@ public class AddJobPage {
 		
 		MenuBar menuBar;
 		Menu menu;
-		public MenuItem logout, home, viewTransaction, viewReport;
+		public MenuItem logout, home, viewTransaction, viewReport, pcManagement;
 		public Alert addJobAlert, updateJobAlert;
 	}
 	
@@ -79,10 +79,11 @@ public class AddJobPage {
 		ajv.logout = new MenuItem("Logout");
 		ajv.home = new MenuItem("Home Page");
 		ajv.viewTransaction = new MenuItem("View Customer Transactions");
+		ajv.pcManagement = new MenuItem("PC Management Page");
 		ajv.viewReport = new MenuItem("View Report");
 		ajv.menuBar.getMenus().add(ajv.menu);
 		ajv.menu.getItems().addAll(ajv.logout,
-				ajv.home, ajv.viewTransaction, ajv.viewReport);
+				ajv.home, ajv.viewTransaction, ajv.viewReport, ajv.pcManagement);
 	}
 	
 	private void initializeAlert(AddJobPageVar ajv) {
@@ -179,6 +180,14 @@ public class AddJobPage {
                 e1.printStackTrace();
             }
         });
+		
+		ajv.pcManagement.setOnAction(e->{
+			try {
+              new PCManagementPage(ajv.stage);
+          } catch (Exception e1) {
+              e1.printStackTrace();
+          }
+		});
 	}
 	
 	public AddJobPage(Stage stage) {

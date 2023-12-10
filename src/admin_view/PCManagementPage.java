@@ -21,7 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.PC;
@@ -37,19 +36,18 @@ public class PCManagementPage {
 		public Scene scene;
 		public BorderPane bp;
 		public GridPane gp;
-		public HBox hb;
 		public VBox vb1, vb2, vb3, vb4;
 		public VBox vb;
 		public Label title, title2, title3, pcID_lbl, newPCCondition_lbl;
 		public TableView<PC> pcTable;
 		public TableColumn<PC, Integer> pcID_col;
 		public TableColumn<PC, String> pcCondition_col;
-		public TextField pcCondition_tf, newPCCondition_tf, pcID_tf;
+		public TextField pcIDAdd_tf, newPCCondition_tf, pcID_tf;
 		public PasswordField pass_pf;
 		public Button button_add, button_update;
 		public MenuBar menuBar;
 		public Menu menu;
-		public MenuItem logout, addJob;
+		public MenuItem logout, home, addJob, viewTransaction, report;
 		public Alert alert;
 	}
 	
@@ -57,10 +55,16 @@ public class PCManagementPage {
 		pcManagementPageVar.menuBar = new MenuBar();
 		pcManagementPageVar.menu = new Menu("Menu");
 		pcManagementPageVar.logout = new MenuItem("Logout");
+		pcManagementPageVar.home = new MenuItem("Home");
 		pcManagementPageVar.addJob = new MenuItem("Add Technician Job");
+		pcManagementPageVar.viewTransaction = new MenuItem("View Customer Transaction");
+		pcManagementPageVar.report = new MenuItem("View Report");
 		pcManagementPageVar.menuBar.getMenus().add(pcManagementPageVar.menu);
 		pcManagementPageVar.menu.getItems().addAll(pcManagementPageVar.logout,
-				pcManagementPageVar.addJob);
+				pcManagementPageVar.home,
+				pcManagementPageVar.addJob,
+				pcManagementPageVar.viewTransaction,
+				pcManagementPageVar.report);
 	}
 	
 	private void initializeAlert(PCManagementPageVar pcManagementPageVar) {
@@ -78,16 +82,16 @@ public class PCManagementPage {
 		
 
 		pcManagementPageVar.title = new Label("Add new PC");
-		pcManagementPageVar.pcCondition_tf = new TextField();
+		pcManagementPageVar.pcIDAdd_tf = new TextField();
 		pcManagementPageVar.button_add = new Button("Add PC");
 		
 		pcManagementPageVar.vb1.getChildren().add(pcManagementPageVar.title);
-		pcManagementPageVar.vb2.getChildren().addAll(pcManagementPageVar.pcCondition_tf, pcManagementPageVar.button_add);
+		pcManagementPageVar.vb2.getChildren().addAll(pcManagementPageVar.pcIDAdd_tf, pcManagementPageVar.button_add);
 
 		pcManagementPageVar.gp.add(pcManagementPageVar.vb1, 0, 0);
 		pcManagementPageVar.gp.add(pcManagementPageVar.vb2, 0, 1);
 		
-
+		initializeMenu(pcManagementPageVar);
 		pcManagementPageVar.bp.setTop(pcManagementPageVar.menuBar);
 		pcManagementPageVar.bp.setCenter(pcManagementPageVar.gp);
 
@@ -119,22 +123,64 @@ public class PCManagementPage {
 		
 		pcManagementPageVar.vb4.getChildren().addAll(pcManagementPageVar.title3, pcManagementPageVar.pcID_lbl, pcManagementPageVar.pcID_tf, pcManagementPageVar.newPCCondition_lbl, pcManagementPageVar.newPCCondition_tf, pcManagementPageVar.button_update);
 		pcManagementPageVar.gp.add(pcManagementPageVar.vb4, 0, 3);
-		
-		
-		initializeMenu(pcManagementPageVar);
-		initializeAlert(pcManagementPageVar);
-		handle(pcManagementPageVar);
 	}
 	
 	private void handle(PCManagementPageVar pcManagementPageVar) {
 		pcController.handling_addPC(pcManagementPageVar);
 		pcController.handling_viewAllPCManagement(pcManagementPageVar);
 		pcController.handlingUpdatePC(pcManagementPageVar);
+		
+		pcManagementPageVar.logout.setOnAction(e->{
+            try {
+                new LoginPage(pcManagementPageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		pcManagementPageVar.home.setOnAction(e->{
+            try {
+                new AdminHomePage(pcManagementPageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		pcManagementPageVar.viewTransaction.setOnAction(e->{
+            try {
+                new ViewAllTransactionsPage(pcManagementPageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		pcManagementPageVar.addJob.setOnAction(e->{
+            try {
+                new AddJobPage(pcManagementPageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		pcManagementPageVar.report.setOnAction(e->{
+            try {
+                new ViewReportsPage(pcManagementPageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 	}
 	
 	public PCManagementPage(Stage stage) {
 		PCManagementPageVar pcManagementPageVar = new PCManagementPageVar();
 		initialize(pcManagementPageVar);
+		initializeAlert(pcManagementPageVar);
+		handle(pcManagementPageVar);
 		pcManagementPageVar.stage = stage;
 		pcManagementPageVar.stage.setResizable(false);
 		pcManagementPageVar.stage.setScene(pcManagementPageVar.scene);

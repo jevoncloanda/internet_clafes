@@ -96,6 +96,7 @@ public class AdminHomePage {
 		adminHomePageVar.role_tf = new TextField();
 		adminHomePageVar.btnUpdate = new Button("UPDATE");
 
+		initializeMenu(adminHomePageVar);
 		adminHomePageVar.vb1.getChildren().addAll(adminHomePageVar.title1, adminHomePageVar.username, adminHomePageVar.username_tf, adminHomePageVar.role, adminHomePageVar.role_tf, adminHomePageVar.btnUpdate);
 		adminHomePageVar.gp.add(adminHomePageVar.vb1, 0, 1);
 		adminHomePageVar.bp.setTop(adminHomePageVar.menuBar);
@@ -103,7 +104,6 @@ public class AdminHomePage {
 		adminHomePageVar.scene = new Scene(adminHomePageVar.bp, 650, 650);
 		
 		
-		initializeMenu(adminHomePageVar);
 		viewAllStaff(adminHomePageVar);
 		initializeAlert(adminHomePageVar);
 		handle(adminHomePageVar);

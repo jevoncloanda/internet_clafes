@@ -31,9 +31,78 @@ public class TransactionController {
 	PCModel pcModel = new PCModel();
 	ResultSet rs;
 
+	public boolean checkIfStringContainsLetters(String str) {
+		str = str.toUpperCase();
+		if(str.contains("A")==true
+				|| str.contains("B")==true
+				|| str.contains("C")==true
+				|| str.contains("D")==true
+				|| str.contains("E")==true
+				|| str.contains("F")==true
+				|| str.contains("G")==true
+				|| str.contains("H")==true
+				|| str.contains("I")==true
+				|| str.contains("J")==true
+				|| str.contains("K")==true
+				|| str.contains("L")==true
+				|| str.contains("M")==true
+				|| str.contains("N")==true
+				|| str.contains("O")==true
+				|| str.contains("P")==true
+				|| str.contains("Q")==true
+				|| str.contains("R")==true
+				|| str.contains("S")==true
+				|| str.contains("T")==true
+				|| str.contains("U")==true
+				|| str.contains("V")==true
+				|| str.contains("W")==true
+				|| str.contains("X")==true
+				|| str.contains("Y")==true
+				|| str.contains("Z")==true
+				|| str.contains("`")==true
+				|| str.contains("~")==true
+				|| str.contains("!")==true
+				|| str.contains("@")==true
+				|| str.contains("#")==true
+				|| str.contains("$")==true
+				|| str.contains("%")==true
+				|| str.contains("^")==true
+				|| str.contains("&")==true
+				|| str.contains("*")==true
+				|| str.contains("(")==true
+				|| str.contains(")")==true
+				|| str.contains("-")==true
+				|| str.contains("_")==true
+				|| str.contains("+")==true
+				|| str.contains("=")==true
+				|| str.contains("{")==true
+				|| str.contains("[")==true
+				|| str.contains("}")==true
+				|| str.contains("]")==true
+				|| str.contains("|")==true
+				|| str.contains("\\")==true
+				|| str.contains(":")==true
+				|| str.contains(";")==true
+				|| str.contains("\"")==true
+				|| str.contains("'")==true
+				|| str.contains("<")==true
+				|| str.contains(",")==true
+				|| str.contains(">")==true
+				|| str.contains(".")==true
+				|| str.contains("?")==true
+				|| str.contains("/")==true) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void handling_bookPC(CustomerHomePageVar cv, User currentUser) {
 		cv.button_book.setOnAction(e -> {
-			Integer pcID = Integer.parseInt(cv.pcID_tf.getText());
+			String pcIDText = cv.pcID_tf.getText();
+			Integer pcID=0;
+			if(checkIfStringContainsLetters(pcIDText)==false) {
+				pcID = Integer.parseInt(pcIDText);
+			}
 			String customerName = currentUser.getUserName();
 			Date bookedTime = Date.valueOf(cv.bookedTime_pick.getValue());
 			String pcCondition = "";
@@ -61,10 +130,19 @@ public class TransactionController {
 			}
 			PCBook pcBook;
 			
-			if (!pcModel.checkPCExist(pcID)) {
+			if (checkIfStringContainsLetters(pcIDText)==true) {
+				cv.alert.setContentText("PC ID must only contains numbers!");
+				cv.alert.showAndWait();
+			}
+			else if (!pcModel.checkPCExist(pcID)) {
 				cv.alert.setContentText("PC Not Found");
 				cv.alert.showAndWait();
-			} else if (bookedTime.before(Date.valueOf(today))) {
+			} 
+			else if(pcIDText.isEmpty() || bookedTime == null) {
+				cv.alert.setContentText("Please fill all the fields");
+				cv.alert.showAndWait();
+			}
+			else if (bookedTime.before(Date.valueOf(today))) {
 				cv.alert.setContentText("Date must be at least today");
 				cv.alert.showAndWait();
 			} 

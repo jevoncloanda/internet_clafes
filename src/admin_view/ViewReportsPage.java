@@ -26,7 +26,7 @@ public class ViewReportsPage {
 		public VBox vb1;
 		MenuBar menuBar;
 		Menu menu;
-		public MenuItem logout, home, addJob, viewTransaction;
+		public MenuItem logout, home, addJob, viewTransaction, pcManagement;
 		public Label tableTitle;
 		public TableView<Report> reportTable;
 		public TableColumn<Report, Integer> reportID_col, pcID_col;
@@ -41,9 +41,10 @@ public class ViewReportsPage {
 		vr.home = new MenuItem("Home Page");
 		vr.viewTransaction = new MenuItem("View Customer Transactions");
 		vr.addJob = new MenuItem("Add Technician Job");
+		vr.pcManagement = new MenuItem("PC Management Page");
 		vr.menuBar.getMenus().add(vr.menu);
 		vr.menu.getItems().addAll(vr.logout, vr.home, vr.viewTransaction,
-				vr.addJob);
+				vr.addJob, vr.pcManagement);
 	}
 	
 	public void initialize(ViewReportsPageVar vr) {
@@ -91,6 +92,14 @@ public class ViewReportsPage {
                 e1.printStackTrace();
             }
         });
+		
+		vr.pcManagement.setOnAction(e->{
+			try {
+              new PCManagementPage(vr.stage);
+          } catch (Exception e1) {
+              e1.printStackTrace();
+          }
+		});
 	}
 	
 	public ViewReportsPage(Stage stage) {

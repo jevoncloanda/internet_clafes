@@ -33,7 +33,7 @@ public class ViewAllTransactionsPage {
 		public VBox vb1;
 		MenuBar menuBar;
 		Menu menu;
-		public MenuItem logout, home, addJob, viewReport;
+		public MenuItem logout, home, addJob, viewReport, pcManagement;
 		public Label tableTitle;
 		public TableView<Transaction> tdTable;
 		public TableColumn<Transaction, Integer> pcID_col, tdID_col, staffID_col;
@@ -48,9 +48,10 @@ public class ViewAllTransactionsPage {
 		vav.logout = new MenuItem("Logout");
 		vav.addJob = new MenuItem("Add Technician Job");
 		vav.viewReport = new MenuItem("View Report");
+		vav.pcManagement = new MenuItem("PC Management Page");
 		vav.menuBar.getMenus().add(vav.menu);
 		vav.menu.getItems().addAll(vav.logout, vav.home,
-				vav.addJob, vav.viewReport);
+				vav.addJob, vav.viewReport, vav.pcManagement);
 	}
 	
 	private void initialize(ViewAllTransactionPageVar vav) {
@@ -99,6 +100,14 @@ public class ViewAllTransactionsPage {
                 e1.printStackTrace();
             }
         });
+		
+		vav.pcManagement.setOnAction(e->{
+			try {
+              new PCManagementPage(vav.stage);
+          } catch (Exception e1) {
+              e1.printStackTrace();
+          }
+		});
 	}
 	
 	public ViewAllTransactionsPage(Stage stage) {

@@ -11,14 +11,14 @@ public class PCModel {
 	PreparedStatement ps;
 	ResultSet rs;
 	
-	public void addPC(PC pc) {
+	public void addPC(Integer id) {
 		
-		String query ="INSERT INTO pcs Value(0,?)";
+		String query ="INSERT INTO pcs Value(?,'Usable')";
 		
 		ps = con.prepareStatment(query);
 		
 		try {
-			ps.setString(1, pc.getPC_Condition());
+			ps.setInt(1, id);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
