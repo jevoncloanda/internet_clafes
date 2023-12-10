@@ -13,7 +13,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.PC;
+<<<<<<< Updated upstream
 import view.MakeReportPage.MakeReportPageVar;
+=======
+import operator_view.OperatorHomePage.OperatorHomePageVar;
+>>>>>>> Stashed changes
 
 public class PCController {
 	PCModel pcModel = new PCModel();
@@ -120,6 +124,40 @@ public class PCController {
 		ajv.pcCondition_col.setCellValueFactory(new PropertyValueFactory<>("PC_Condition"));
 		
 		ajv.vbPC.getChildren().addAll(ajv.titlePCTable, ajv.pcTable);
+	}
+	
+	public void handling_viewPCOperator(OperatorHomePageVar ov) {
+		ArrayList<PC> pcList = new ArrayList<>();
+		
+		ov.vb4 = new VBox();
+		ov.pcTable = new TableView<PC>();
+		ov.titlePCTable = new Label("PC Table");
+		ov.pcID_col = new TableColumn<>("PC ID");
+		ov.pcCondition_col = new TableColumn<>("Status");
+		ov.pcTable.getColumns().addAll(ov.pcID_col, ov.pcCondition_col);
+		
+		ResultSet rs = pcModel.getAllPC();
+		
+		try {
+			while (rs.next()) {
+				Integer i = rs.getInt("PC_ID");
+				String c = rs.getString("PC_Condition");
+				
+				pcList.add(new PC(i, c));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		for (PC pc : pcList) {
+			ov.pcTable.getItems().add(pc);
+		}
+		
+		ov.pcID_col.setCellValueFactory(new PropertyValueFactory<>("PC_ID"));
+		ov.pcCondition_col.setCellValueFactory(new PropertyValueFactory<>("PC_Condition"));
+		
+		ov.vb4.getChildren().addAll(ov.titlePCTable, ov.pcTable);
 	}
 	
 	public void updatePCCondition(AddJobPageVar ajv, String Condition) {

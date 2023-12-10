@@ -88,6 +88,18 @@ public class PCBookModel {
 		}
 		return rs;
 	}
+	
+	public void updatePCBook(Integer bookID, Integer newPcID) {
+		String query = "UPDATE pcbooks SET PC_ID = ? WHERE BookID = ?";
+		ps = con.prepareStatment(query);
+		try {
+			ps.setInt(1, newPcID);
+			ps.setInt(2, bookID);
+			ps.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void deletePCBook(Integer bookID) {
 		String query = "DELETE FROM pcbooks WHERE BookID = ?";

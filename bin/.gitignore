@@ -1,8 +1,11 @@
+/operator_view/
 /controller/
-/model/
 /database/
+<<<<<<< Updated upstream
 /admin_view/
 /view/
 /customer_view/
 /computer_technician_view/
 /operator_view/
+=======
+>>>>>>> Stashed changes
