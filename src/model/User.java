@@ -1,17 +1,27 @@
 package model;
 
 public class User {
+	private Integer UserID;
 	private String UserName;
 	private String UserPassword;
 	private Integer UserAge;
 	private String UserRole;
-	
-	public User(String userName, String userPassword, Integer userAge, String userRole) {
+
+	public User(Integer userID, String userName, String userPassword, Integer userAge, String userRole) {
 		super();
+		UserID = userID;
 		UserName = userName;
 		UserPassword = userPassword;
 		UserAge = userAge;
 		UserRole = userRole;
+	}
+
+	public Integer getUserID() {
+		return UserID;
+	}
+
+	public void setUserID(Integer userID) {
+		UserID = userID;
 	}
 
 	public String getUserName() {
@@ -45,8 +55,5 @@ public class User {
 	public void setUserRole(String userRole) {
 		UserRole = userRole;
 	}
-	
-	
-	
 
 }

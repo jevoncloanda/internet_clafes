@@ -43,7 +43,7 @@ public class AdminHomePage {
 		public Button btnUpdate, btnDelete;
 		public MenuBar menuBar;
 		public Menu menu;
-		public MenuItem logout, addJob, pcManagement;
+		public MenuItem logout, addJob, viewTransaction, viewReport, pcManagement;
 		public Alert alert;
 	}
 	
@@ -51,11 +51,14 @@ public class AdminHomePage {
 		adminHomePageVar.menuBar = new MenuBar();
 		adminHomePageVar.menu = new Menu("Menu");
 		adminHomePageVar.logout = new MenuItem("Logout");
+		adminHomePageVar.viewTransaction = new MenuItem("View Customer Transactions");
 		adminHomePageVar.addJob = new MenuItem("Add Technician Job");
 		adminHomePageVar.pcManagement = new MenuItem("PC Management Page");
+		adminHomePageVar.viewReport = new MenuItem("View Reports");
 		adminHomePageVar.menuBar.getMenus().add(adminHomePageVar.menu);
 		adminHomePageVar.menu.getItems().addAll(adminHomePageVar.logout,
-				adminHomePageVar.addJob, adminHomePageVar.pcManagement);
+				adminHomePageVar.addJob, adminHomePageVar.viewTransaction,
+				adminHomePageVar.viewReport, adminHomePageVar.pcManagement);
 	}
 	
 	private void initializeAlert(AdminHomePageVar adminHomePageVar) {
@@ -133,7 +136,25 @@ public class AdminHomePage {
 		
 		adminHomePageVar.addJob.setOnAction(e->{
             try {
-//                new LoginPage(adminHomePageVar.stage);
+                new AddJobPage(adminHomePageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		adminHomePageVar.viewTransaction.setOnAction(e->{
+            try {
+                new ViewAllTransactionsPage(adminHomePageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		adminHomePageVar.viewReport.setOnAction(e->{
+            try {
+                new ViewReportsPage(adminHomePageVar.stage);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }

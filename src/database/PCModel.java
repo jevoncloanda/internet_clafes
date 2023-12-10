@@ -26,6 +26,18 @@ public class PCModel {
 		}
 	}
 	
+	public void updatePCCondition(Integer pcID, String Condition) {
+		String query = "UPDATE pcs SET PC_Condition=? WHERE PC_ID=?";
+		ps = con.prepareStatment(query);
+		try {
+			ps.setString(1, Condition);
+			ps.setInt(2, pcID);
+			ps.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public boolean checkPCExist(Integer pc_id) {
 		String query = "SELECT EXISTS(SELECT * FROM pcs WHERE PC_ID = ?)";
 		ps = con.prepareStatment(query);
@@ -63,5 +75,16 @@ public class PCModel {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	public ResultSet getPC(Integer id) {
+		String query = "SELECT * FROM pcs WHERE PC_ID = ?";
+		ps = con.prepareStatment(query);
+		try {
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
 	}
 }

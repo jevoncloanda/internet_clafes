@@ -43,11 +43,41 @@ public class UserModel {
 		return 0;
 	}
 	
+	public String getUserRole(Integer id) {
+		String query = "SELECT UserRole FROM users WHERE UserID = ?";
+		ps = con.prepareStatment(query);
+		try {
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			rs.next();
+			return rs.getString("UserRole");
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
 	public boolean checkUserExist(String userName) {
 		String query = "SELECT EXISTS(SELECT * FROM users WHERE UserName = ?)";
 		ps = con.prepareStatment(query);
 		try {
 			ps.setString(1, userName);
+			rs = ps.executeQuery();
+			rs.next();
+			if(rs.getInt(1)==0) {
+				return false;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean checkUserExist(Integer id) {
+		String query = "SELECT EXISTS(SELECT * FROM users WHERE UserID = ?)";
+		ps = con.prepareStatment(query);
+		try {
+			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			rs.next();
 			if(rs.getInt(1)==0) {

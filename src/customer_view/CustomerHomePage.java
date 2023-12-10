@@ -27,6 +27,7 @@ import model.PC;
 import model.TransactionDetail;
 import model.User;
 import view.LoginPage;
+import view.MakeReportPage;
 
 public class CustomerHomePage {
 	PCController pcController = new PCController();
@@ -41,7 +42,7 @@ public class CustomerHomePage {
 		HBox hb;
 		MenuBar menuBar;
 		Menu menu;
-		public MenuItem menuItemLogout;
+		public MenuItem menuItemLogout, report;
 		public Label title1, title2, title3, pcID_lbl;
 		public TextField pcID_tf;
 		public DatePicker bookedTime_pick;
@@ -60,8 +61,9 @@ public class CustomerHomePage {
 		cv.menuBar = new MenuBar();
 		cv.menu = new Menu("Menu");
 		cv.menuItemLogout = new MenuItem("Logout");
+		cv.report = new MenuItem("Report");
 		cv.menuBar.getMenus().add(cv.menu);
-		cv.menu.getItems().add(cv.menuItemLogout);
+		cv.menu.getItems().addAll(cv.menuItemLogout, cv.report);
 	}
 
 	private void initializeAlert(CustomerHomePageVar cv) {
@@ -83,7 +85,7 @@ public class CustomerHomePage {
 		initializeMenu(cv);
 		cv.vb2.getChildren().addAll(cv.title3, cv.pcID_lbl, cv.pcID_tf, cv.bookedTime_pick, cv.button_book);
 		cv.vb3.getChildren().addAll(cv.vb, cv.vb1);
-//		cv.bp.setTop(cv.menuBar);
+
 		
 		cv.bp.setTop(cv.menuBar);
 		cv.bp.setCenter(cv.vb3);
@@ -97,6 +99,15 @@ public class CustomerHomePage {
 		cv.menuItemLogout.setOnAction(e->{
 			try {
 				new LoginPage(cv.stage);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		cv.report.setOnAction(e->{
+			try {
+				new MakeReportPage(cv.stage, currentUser);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

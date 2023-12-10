@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import model.Job;
 import model.User;
 import view.LoginPage;
+import view.MakeReportPage;
 import view.LoginPage.LoginVar;
 import view.RegisterPage.RegisterVar;
 
