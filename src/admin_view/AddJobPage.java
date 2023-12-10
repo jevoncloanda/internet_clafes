@@ -69,7 +69,7 @@ public class AddJobPage {
 		
 		MenuBar menuBar;
 		Menu menu;
-		public MenuItem logout, home, viewTransaction;
+		public MenuItem logout, home, viewTransaction, viewReport;
 		public Alert addJobAlert, updateJobAlert;
 	}
 	
@@ -79,9 +79,10 @@ public class AddJobPage {
 		ajv.logout = new MenuItem("Logout");
 		ajv.home = new MenuItem("Home Page");
 		ajv.viewTransaction = new MenuItem("View Customer Transactions");
+		ajv.viewReport = new MenuItem("View Report");
 		ajv.menuBar.getMenus().add(ajv.menu);
 		ajv.menu.getItems().addAll(ajv.logout,
-				ajv.home, ajv.viewTransaction);
+				ajv.home, ajv.viewTransaction, ajv.viewReport);
 	}
 	
 	private void initializeAlert(AddJobPageVar ajv) {
@@ -164,6 +165,15 @@ public class AddJobPage {
 		ajv.viewTransaction.setOnAction(e->{
             try {
                 new ViewAllTransactionsPage(ajv.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		ajv.viewReport.setOnAction(e->{
+            try {
+                new ViewReportsPage(ajv.stage);
             } catch (Exception e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

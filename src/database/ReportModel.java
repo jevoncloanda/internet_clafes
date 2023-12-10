@@ -26,4 +26,15 @@ public class ReportModel {
 			e.printStackTrace();
 		}
 	}
+	
+	public ResultSet getAllReportData() {
+		String query = "SELECT * FROM reports";
+		ps = con.prepareStatment(query);
+		try {
+			rs = ps.executeQuery();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
 }

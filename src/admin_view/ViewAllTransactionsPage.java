@@ -33,7 +33,7 @@ public class ViewAllTransactionsPage {
 		public VBox vb1;
 		MenuBar menuBar;
 		Menu menu;
-		public MenuItem logout, home, addJob;
+		public MenuItem logout, home, addJob, viewReport;
 		public Label tableTitle;
 		public TableView<Transaction> tdTable;
 		public TableColumn<Transaction, Integer> pcID_col, tdID_col, staffID_col;
@@ -47,9 +47,10 @@ public class ViewAllTransactionsPage {
 		vav.home = new MenuItem("Home Page");
 		vav.logout = new MenuItem("Logout");
 		vav.addJob = new MenuItem("Add Technician Job");
+		vav.viewReport = new MenuItem("View Report");
 		vav.menuBar.getMenus().add(vav.menu);
 		vav.menu.getItems().addAll(vav.logout, vav.home,
-				vav.addJob);
+				vav.addJob, vav.viewReport);
 	}
 	
 	private void initialize(ViewAllTransactionPageVar vav) {
@@ -84,6 +85,15 @@ public class ViewAllTransactionsPage {
 		vav.addJob.setOnAction(e->{
             try {
                 new AddJobPage(vav.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		vav.viewReport.setOnAction(e->{
+            try {
+                new ViewReportsPage(vav.stage);
             } catch (Exception e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
