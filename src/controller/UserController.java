@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import customer_view.CustomerHomePage;
 import admin_view.AdminHomePage;
+import admin_view.AddJobPage;
 import admin_view.AddJobPage.AddJobPageVar;
 import admin_view.AdminHomePage.AdminHomePageVar;
 import computer_technician_view.ComputerTechnicianHomePage;
@@ -104,7 +105,7 @@ public class UserController {
 	        	registerVar.alert.showAndWait();
 	        }
 	        else {
-				userModel.regis(new User(u, p, a, "Customer"));
+				userModel.regis(new User(0, u, p, a, "Customer"));
 				new LoginPage(registerVar.stage);
 			}
 		});
@@ -130,7 +131,7 @@ public class UserController {
 					String password = rs.getString("UserPassword");
 					Integer age = rs.getInt("UserAge");
 					String role = rs.getString("UserRole");
-					currentUser = new User(username, password, age, role);
+					currentUser = new User(0, username, password, age, role);
 					
 					// tinggal tambahin new ..HomePage() tiap role nya disini
 					if(role.equals("Customer")) {
@@ -165,7 +166,7 @@ public class UserController {
 				Integer a = rs.getInt("UserAge");
 				String r = rs.getString("UserRole");
 				
-				userList.add(new User(u, p, a, r));
+				userList.add(new User(0, u, p, a, r));
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -250,18 +251,19 @@ public class UserController {
 
 	public void getAllTechnicians(AddJobPageVar ajv) {
 		ArrayList<User> userList = new ArrayList<>();
-		AdminHomePage adminPage = null;
+		AddJobPage addJobPage = null;
 		
         rs = userModel.getAllTechnicians();
         
         try {
 			while(rs.next()) {
+				Integer id = rs.getInt("UserID");
 				String u = rs.getString("UserName");
 				String p = rs.getString("UserPassword");
 				Integer a = rs.getInt("UserAge");
 				String r = rs.getString("UserRole");
 				
-				userList.add(new User(u, p, a, r));
+				userList.add(new User(id, u, p, a, r));
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -270,23 +272,23 @@ public class UserController {
         
         ajv.vb = new VBox();
         ajv.table = new TableView<User>();
+        ajv.userid_col = new TableColumn<>("id");
         ajv.username_col = new TableColumn<>("username");
         ajv.age_col = new TableColumn<>("age");
         ajv.role_col = new TableColumn<>("role");
-        ajv.table.getColumns().addAll(ajv.username_col, ajv.age_col, ajv.role_col);
+        ajv.titleUserTable = new Label("User Table");
+        ajv.table.getColumns().addAll(ajv.userid_col, ajv.username_col, ajv.age_col, ajv.role_col);
         
 		for (User user : userList) {
 			ajv.table.getItems().add(user);
 		}
 		
+		ajv.userid_col.setCellValueFactory(new PropertyValueFactory<>("UserID"));
 		ajv.username_col.setCellValueFactory(new PropertyValueFactory<>("UserName"));
 		ajv.age_col.setCellValueFactory(new PropertyValueFactory<>("UserAge"));
 		ajv.role_col.setCellValueFactory(new PropertyValueFactory<>("UserRole"));
+
+		ajv.vb.getChildren().addAll(ajv.titleUserTable, ajv.table);
         
-		ajv.table.setMaxHeight(150);
-		ajv.username_col.setMinWidth(200);
-		ajv.age_col.setPrefWidth(200);
-        
-		ajv.vb.getChildren().add(ajv.table);
 	}
 }

@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import admin_view.AddJobPage.AddJobPageVar;
 import customer_view.CustomerHomePage.CustomerHomePageVar;
 import database.PCModel;
 import javafx.scene.control.Label;
@@ -51,6 +52,51 @@ public class PCController {
 		cv.pcCondition_col.setCellValueFactory(new PropertyValueFactory<>("PC_Condition"));
 
 		cv.vb1.getChildren().addAll(cv.title2, cv.pcTable);
+	}
+	
+	public void handling_viewPCAddJob(AddJobPageVar ajv) {
+		ArrayList<PC> pcList = new ArrayList<>();
+		
+		ajv.vbPC = new VBox();
+		ajv.pcTable = new TableView<PC>();
+		ajv.titlePCTable = new Label("PC Table");
+		ajv.pcID_col = new TableColumn<>("PC ID");
+		ajv.pcCondition_col = new TableColumn<>("Status");
+		ajv.pcTable.getColumns().addAll(ajv.pcID_col, ajv.pcCondition_col);
+		
+		ResultSet rs = pcModel.getAllPC();
+		
+		try {
+			while (rs.next()) {
+				Integer i = rs.getInt("PC_ID");
+				String c = rs.getString("PC_Condition");
+				
+				pcList.add(new PC(i, c));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		for (PC pc : pcList) {
+			ajv.pcTable.getItems().add(pc);
+		}
+		
+		ajv.pcID_col.setCellValueFactory(new PropertyValueFactory<>("PC_ID"));
+		ajv.pcCondition_col.setCellValueFactory(new PropertyValueFactory<>("PC_Condition"));
+		
+		ajv.vbPC.getChildren().addAll(ajv.titlePCTable, ajv.pcTable);
+	}
+	
+	public void updatePCCondition(AddJobPageVar ajv, String Condition) {
+		Integer pcID = ajv.pcIDUpdate_spin.getValue();
+		if(pcModel.checkPCExist(pcID)==false) {
+			ajv.updateJobAlert.setContentText("Invalid PC ID!");
+			ajv.updateJobAlert.showAndWait();
+		}
+		else {
+			pcModel.updatePCCondition(pcID, Condition);
+		}
 	}
 
 }

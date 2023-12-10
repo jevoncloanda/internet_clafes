@@ -83,7 +83,7 @@ public class CustomerHomePage {
 		initializeMenu(cv);
 		cv.vb2.getChildren().addAll(cv.title3, cv.pcID_lbl, cv.pcID_tf, cv.bookedTime_pick, cv.button_book);
 		cv.vb3.getChildren().addAll(cv.vb, cv.vb1);
-//		cv.bp.setTop(cv.menuBar);
+
 		
 		cv.bp.setTop(cv.menuBar);
 		cv.bp.setCenter(cv.vb3);

@@ -97,7 +97,7 @@ public class AdminHomePage {
 		
 		adminHomePageVar.addJob.setOnAction(e->{
             try {
-//                new LoginPage(adminHomePageVar.stage);
+                new AddJobPage(adminHomePageVar.stage);
             } catch (Exception e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
