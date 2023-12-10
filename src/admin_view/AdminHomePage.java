@@ -43,7 +43,7 @@ public class AdminHomePage {
 		public Button btnUpdate, btnDelete;
 		public MenuBar menuBar;
 		public Menu menu;
-		public MenuItem logout, addJob;
+		public MenuItem logout, addJob, viewTransaction;
 		public Alert alert;
 	}
 	
@@ -51,10 +51,11 @@ public class AdminHomePage {
 		adminHomePageVar.menuBar = new MenuBar();
 		adminHomePageVar.menu = new Menu("Menu");
 		adminHomePageVar.logout = new MenuItem("Logout");
+		adminHomePageVar.viewTransaction = new MenuItem("View Customer Transactions");
 		adminHomePageVar.addJob = new MenuItem("Add Technician Job");
 		adminHomePageVar.menuBar.getMenus().add(adminHomePageVar.menu);
 		adminHomePageVar.menu.getItems().addAll(adminHomePageVar.logout,
-				adminHomePageVar.addJob);
+				adminHomePageVar.addJob, adminHomePageVar.viewTransaction);
 	}
 	
 	private void initializeAlert(AdminHomePageVar adminHomePageVar) {
@@ -98,6 +99,15 @@ public class AdminHomePage {
 		adminHomePageVar.addJob.setOnAction(e->{
             try {
                 new AddJobPage(adminHomePageVar.stage);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		
+		adminHomePageVar.viewTransaction.setOnAction(e->{
+            try {
+                new ViewAllTransactionsPage(adminHomePageVar.stage);
             } catch (Exception e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

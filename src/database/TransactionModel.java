@@ -61,5 +61,31 @@ public class TransactionModel {
 		}
 		return rs;
 	}
+	
+	public ResultSet getAllTransactionDetail() {
+		String query = "SELECT * FROM transactiondetails";
+		
+		ps = con.prepareStatment(query);
+		
+		try {
+			rs = ps.executeQuery();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ResultSet getAllTransactionHeader() {
+		String query = "SELECT * FROM transactionheaders";
+		
+		ps = con.prepareStatment(query);
+		
+		try {
+			rs = ps.executeQuery();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
 
 }

@@ -66,4 +66,16 @@ public class PCModel {
 		}
 		return rs;
 	}
+	
+	public ResultSet getPC(Integer id) {
+		String query = "SELECT * FROM pcs WHERE PC_ID = ?";
+		ps = con.prepareStatment(query);
+		try {
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
 }
