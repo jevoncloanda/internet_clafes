@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.PC;
+import view.MakeReportPage.MakeReportPageVar;
 
 public class PCController {
 	PCModel pcModel = new PCModel();
@@ -52,6 +53,39 @@ public class PCController {
 		cv.pcCondition_col.setCellValueFactory(new PropertyValueFactory<>("PC_Condition"));
 
 		cv.vb1.getChildren().addAll(cv.title2, cv.pcTable);
+	}
+	
+	public void handling_viewPC(MakeReportPageVar mrp) {
+		ArrayList<PC> pcList = new ArrayList<>();
+
+		mrp.vb1 = new VBox();
+		mrp.pcTable = new TableView<PC>();
+		mrp.pcID_col = new TableColumn<>("PC ID");
+		mrp.pcCondition_col = new TableColumn<>("Status");
+		mrp.pcTable.getColumns().addAll(mrp.pcID_col, mrp.pcCondition_col);
+
+		ResultSet rs = pcModel.getAllPC();
+
+		try {
+			while (rs.next()) {
+				Integer i = rs.getInt("PC_ID");
+				String c = rs.getString("PC_Condition");
+
+				pcList.add(new PC(i, c));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		for (PC pc : pcList) {
+			mrp.pcTable.getItems().add(pc);
+		}
+
+		mrp.pcID_col.setCellValueFactory(new PropertyValueFactory<>("PC_ID"));
+		mrp.pcCondition_col.setCellValueFactory(new PropertyValueFactory<>("PC_Condition"));
+
+		mrp.vb1.getChildren().add(mrp.pcTable);
 	}
 	
 	public void handling_viewPCAddJob(AddJobPageVar ajv) {

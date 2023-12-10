@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import model.PCBook;
 import model.User;
 import view.LoginPage;
+import view.MakeReportPage;
 
 public class OperatorHomePage {
 	
@@ -36,7 +37,7 @@ public class OperatorHomePage {
 		HBox hb;
 		MenuBar menuBar;
 		Menu menu;
-		public MenuItem menuItemLogout;
+		public MenuItem menuItemLogout, report;
 		public Label title1, title2, title3, bookID_lbl;
 		public TextField bookID_tf;
 		public TableView<PCBook> pcBookTable;
@@ -50,8 +51,9 @@ public class OperatorHomePage {
 		ov.menuBar = new MenuBar();
 		ov.menu = new Menu("Menu");
 		ov.menuItemLogout = new MenuItem("Logout");
+		ov.report = new MenuItem("Report");
 		ov.menuBar.getMenus().add(ov.menu);
-		ov.menu.getItems().add(ov.menuItemLogout);
+		ov.menu.getItems().addAll(ov.menuItemLogout, ov.report);
 	}
 
 	private void initializeAlert(OperatorHomePageVar ov) {
@@ -84,6 +86,15 @@ public class OperatorHomePage {
 		ov.menuItemLogout.setOnAction(e->{
 			try {
 				new LoginPage(ov.stage);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		ov.report.setOnAction(e->{
+			try {
+				new MakeReportPage(ov.stage, currentUser);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
