@@ -40,15 +40,9 @@ public class OperatorHomePage {
 		HBox hb;
 		MenuBar menuBar;
 		Menu menu;
-<<<<<<< Updated upstream
 		public MenuItem menuItemLogout, report;
-		public Label title1, title2, title3, bookID_lbl;
-		public TextField bookID_tf;
-=======
-		public MenuItem menuItemLogout;
 		public Label title1, title2, title3, bookID_lbl, bookID2_lbl, targetPC_lbl, titlePCTable;
 		public TextField bookID_tf, bookID2_tf, targetPC_tf;
->>>>>>> Stashed changes
 		public TableView<PCBook> pcBookTable;
 		public TableColumn<PCBook, Integer> pbPcID_col, pbUserID_col, pbBookID_col;
 		public TableColumn<PCBook, Date> pbBookedDate_col;

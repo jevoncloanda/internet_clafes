@@ -13,11 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.PC;
-<<<<<<< Updated upstream
 import view.MakeReportPage.MakeReportPageVar;
-=======
 import operator_view.OperatorHomePage.OperatorHomePageVar;
->>>>>>> Stashed changes
 
 public class PCController {
 	PCModel pcModel = new PCModel();
