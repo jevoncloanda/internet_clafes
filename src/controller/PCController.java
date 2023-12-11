@@ -200,36 +200,6 @@ public class PCController {
 				new PCManagementPage(pcManagementPageVar.stage);
 			}
 		});
-//		pcManagementPageVar.button_update.setOnAction(e->{			
-//			String pcIDText = pcManagementPageVar.pcID_tf.getText();
-//			Integer id = 0;
-//			String newCondition = pcManagementPageVar.newPCCondition_tf.getText();
-//			if(checkIfStringContainsLetters(pcIDText)==true) {
-//				pcManagementPageVar.alert.setContentText("Input must only contain numbers!");
-//				pcManagementPageVar.alert.showAndWait();
-//			}
-//			else if(checkIfStringContainsLetters(pcIDText)==false) {
-//				id = Integer.parseInt(pcIDText);
-//			}
-//			id = Integer.parseInt(pcIDText);
-//			if(pcIDText.isEmpty() || newCondition.isEmpty()) {
-//				pcManagementPageVar.alert.setContentText("Fill in all fields!");
-//				pcManagementPageVar.alert.showAndWait();
-//			}
-//			else if(!(newCondition.equals("Usable") || newCondition.equals("Maintenance") || newCondition.equals("Broken"))) {
-//				pcManagementPageVar.alert.setContentText("Invalid Condition!");
-//				pcManagementPageVar.alert.showAndWait();
-//			}
-//			else if(!pcModel.checkPCExist(id)==true) {
-//				pcManagementPageVar.alert.setContentText("Invalid PC ID!");
-//				pcManagementPageVar.alert.showAndWait();
-//			}
-//			else {
-//				pcModel.updatePC(id, newCondition);
-//				new PCManagementPage(pcManagementPageVar.stage);
-//			}
-//			
-//		});
 	}
 	
 	public void handling_viewPC(MakeReportPageVar mrp) {
