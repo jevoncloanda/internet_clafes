@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import model.PC;
 import model.Transaction;
 import model.TransactionDetail;
+import model.TransactionHeader;
 import model.User;
 import view.LoginPage;
 
@@ -30,15 +31,23 @@ public class ViewAllTransactionsPage {
 		public Stage stage;
 		Scene scene;
 		BorderPane bp;
-		public VBox vb1;
+		public VBox vb1, vb2;
 		MenuBar menuBar;
 		Menu menu;
 		public MenuItem logout, home, addJob, viewReport, pcManagement;
-		public Label tableTitle;
-		public TableView<Transaction> tdTable;
-		public TableColumn<Transaction, Integer> pcID_col, tdID_col, staffID_col;
-		public TableColumn<Transaction, String> customerName_col, staffName_col;
-		public TableColumn<Transaction, Date> tdDate_col;
+		public Label tdTitle, thTitle;
+		
+		//Transaction Detail Table
+		public TableView<TransactionDetail> tdTable;
+		public TableColumn<TransactionDetail, Integer> tdPcId_col;
+		public TableColumn<TransactionDetail, String> tdCustomerName_col;
+		public TableColumn<TransactionDetail, Date> tdBookedTime_col;
+		
+		// Transaction Header table
+		public TableView<TransactionHeader> thTable;
+		public TableColumn<TransactionHeader, Integer> thId_col, staffId_col;
+		public TableColumn<TransactionHeader, String> staffName_col;
+		public TableColumn<TransactionHeader, Date> thDate_col;
 	}
 	
 	public void initializeMenu(ViewAllTransactionPageVar vav) {
@@ -61,6 +70,7 @@ public class ViewAllTransactionsPage {
 		
 		vav.bp.setTop(vav.menuBar);
 		vav.bp.setCenter(vav.vb1);
+		vav.bp.setBottom(vav.vb2);
 		vav.scene = new Scene(vav.bp, 700, 700);
 	}
 	
@@ -112,7 +122,8 @@ public class ViewAllTransactionsPage {
 	
 	public ViewAllTransactionsPage(Stage stage) {
 		ViewAllTransactionPageVar vav = new ViewAllTransactionPageVar();
-		transactionController.handling_viewTransactionsAdmin(vav);
+		transactionController.handling_viewTransactionDetailsAdmin(vav);
+		transactionController.handling_viewTransactionHeadersAdmin(vav);
 		initialize(vav);
 		handle(vav);
 		vav.stage = stage;
