@@ -34,6 +34,7 @@ public class TransactionController {
 	UserModel userModel = new UserModel();
 	ResultSet rs;
 
+	// Function untuk memeriksa kalau string memiliki characters selain angka
 	public boolean checkIfStringContainsLetters(String str) {
 		str = str.toUpperCase();
 		if (str.contains("A") == true || str.contains("B") == true || str.contains("C") == true
@@ -61,9 +62,10 @@ public class TransactionController {
 		return false;
 	}
 
+	// Function untuk mengurus book pc customer
 	public void handling_bookPC(CustomerHomePageVar cv, User currentUser) {
 		cv.button_book.setOnAction(e -> {
-
+			// Mengambil value form book pc
 			String pcIDText = null;
 			String customerName = null;
 			Integer pcID = null;
@@ -71,7 +73,9 @@ public class TransactionController {
 			LocalDate today = null;
 			String pcCondition = null;
 			
+			// Validasi
 			if (cv.pcID_tf.getText().isEmpty() || cv.bookedTime_pick.getValue() == null) {
+				// Validasi data kosong
 				cv.alert.setContentText("All fields must be filled");
 				cv.alert.showAndWait();
 			} else {
@@ -94,25 +98,31 @@ public class TransactionController {
 			}
 			
 			if (checkIfStringContainsLetters(pcIDText) == true) {
+				// Validasi kalau input PC ID ada characters selain angka
 				cv.alert.setContentText("PC ID must only contains numbers!");
 				cv.alert.showAndWait();
 			} else if (!pcModel.checkPCExist(pcID)) {
+				// Validasi PC ID ada di database
 				cv.alert.setContentText("PC Not Found");
 				cv.alert.showAndWait();
 			} else if (pcIDText.isEmpty() || bookedTime == null) {
+				// Validasi data kosong
 				cv.alert.setContentText("Please fill all the fields");
 				cv.alert.showAndWait();
 			} else if (bookedTime.before(Date.valueOf(today))) {
+				// Validasi tanggal sebelum hari ini
 				cv.alert.setContentText("Date must be at least today");
 				cv.alert.showAndWait();
 			} else if (pcBookModel.checkPCBookExist(pcID, bookedTime)) {
+				// Validasi pc book sudah ada
 				cv.alert.setContentText("PC is already booked for that date!");
 				cv.alert.showAndWait();
 			} else if (!pcCondition.equals("Usable")) {
+				// Validasi kondisi PC tidak usable
 				cv.alert.setContentText("PC is currently not usable!");
 				cv.alert.showAndWait();
 			} else {
-				
+				// Ambil data user dari database menggunakan user model
 				rs = userModel.getUser(currentUser.getUserName(), currentUser.getUserPassword());
 				Integer userID = null;
 				try {
@@ -122,6 +132,7 @@ public class TransactionController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				// Memasukkan pcbook & transanction melalui model nya
 				PCBook pcBook;
 				transactionModel.addTransactionDetail(new TransactionDetail(pcID, customerName, bookedTime));
 				pcBook = new PCBook(0, pcID, userID, bookedTime);
@@ -131,9 +142,10 @@ public class TransactionController {
 		});
 	}
 
+	// Function generate tabel transaction detail untuk customer page
 	public void handling_viewTransactionDetailByCustomer(CustomerHomePageVar cv, User currentUser) {
 		ArrayList<TransactionDetail> tdList = new ArrayList<>();
-
+		// Inisialisasi semua variable tabel
 		cv.vb = new VBox();
 		cv.tdTable = new TableView<TransactionDetail>();
 		cv.title1 = new Label("Transaction Table");
@@ -142,8 +154,10 @@ public class TransactionController {
 		cv.tdBookedTime_col = new TableColumn<>("Booked Time");
 		cv.tdTable.getColumns().addAll(cv.tdPcID_col, cv.tdCustomerName_col, cv.tdBookedTime_col);
 
+		// Mengambil semua data transaction detail customer tertentu menggunakan transaction model
 		ResultSet rs = transactionModel.getTransactionDetailByCustomer(currentUser);
 
+		// Memasukkan tiap row data transaction detail ke tabel
 		try {
 			while (rs.next()) {
 				Integer tdPcID = rs.getInt("PC_ID");
@@ -168,9 +182,10 @@ public class TransactionController {
 		cv.vb.getChildren().addAll(cv.title1, cv.tdTable);
 	}
 
+	// Function untuk menampilkan tabel transaction detail di View Transaction Page untuk admin
 	public void handling_viewTransactionDetailsAdmin(ViewAllTransactionPageVar vav) {
 		ArrayList<TransactionDetail> tdList = new ArrayList<>();
-
+		// Inisialisasi semua variabel tabel
 		vav.vb1 = new VBox();
 		vav.tdTable = new TableView<TransactionDetail>();
 		vav.tdTitle = new Label("Transaction Detail");
@@ -179,8 +194,10 @@ public class TransactionController {
 		vav.tdBookedTime_col = new TableColumn<>("Booked Time");
 		vav.tdTable.getColumns().addAll(vav.tdPcId_col, vav.tdCustomerName_col, vav.tdBookedTime_col);
 
+		// Mengambil semua data transaction detail
 		rs = transactionModel.getAllTransactionDetail();
 
+		// Memsasukkan tiap row data transaction detail ke tabel
 		try {
 			while (rs.next()) {
 				Integer PC_ID = rs.getInt("PC_ID");
@@ -204,9 +221,10 @@ public class TransactionController {
 		vav.vb1.getChildren().addAll(vav.tdTitle, vav.tdTable);
 	}
 	
+	// Function untuk menampilkan tabel transaction header di View Transaction Page untuk admin
 	public void handling_viewTransactionHeadersAdmin(ViewAllTransactionPageVar vav) {
 		ArrayList<TransactionHeader> thList = new ArrayList<>();
-		
+		// Inisialisasi semua variabel tabel
 		vav.vb2 = new VBox();
 		vav.thTable = new TableView<TransactionHeader>();
 		vav.thTitle = new Label("Transaction Header");
@@ -216,8 +234,10 @@ public class TransactionController {
 		vav.thDate_col = new TableColumn<>("Transaction Date");
 		vav.thTable.getColumns().addAll(vav.thId_col, vav.staffId_col, vav.staffName_col, vav.thDate_col);
 		
+		// Mengambil semua data transaction header
 		rs = transactionModel.getAllTransactionHeader();
 		
+		// Memasukkan tiap row transaction header ke tabel
 		try {
 			while (rs.next()) {
 				Integer th_id = rs.getInt("TransactionID");

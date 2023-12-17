@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Connect {
+	// Variabel untuk koneksi ke database
 	private final String username = "root";
 	private final String password = "";
 	private final String database = "internet_clafes";
@@ -19,6 +20,7 @@ public class Connect {
 	public static Connect connect;
 	public ResultSet rs;
 	
+	// Function membuat instance connect (memakai pattern singleton)
 	public static Connect getInstance() {
 		if(connect == null) {
 			connect = new Connect();
@@ -27,44 +29,24 @@ public class Connect {
 		return connect;
 	}
 	
+	// Function membuat koneksi ke database
 	private Connect() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(connection, username, password);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public ResultSet selectData(String query) {
-		try {
-			ps = con.prepareStatement(query);
-			rs = ps.executeQuery(query);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public void execute(String query) {
-		try {
-			ps = con.prepareStatement(query);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
+	// Function membuat prepared statement
 	public PreparedStatement prepareStatment(String query) {
 		ps = null;
 		
 		try {
 			ps = con.prepareStatement(query);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -61,6 +61,7 @@ public class LoginPage {
 		loginVar.vb2 = new VBox();
 		loginVar.gp = new GridPane();
 		
+		// Untuk form login
 		loginVar.title = new Label("Login");
 		loginVar.username_lbl = new Label("UserName");
 		loginVar.username_tf = new TextField();
@@ -86,6 +87,7 @@ public class LoginPage {
 	}
 	
 	private void handle(LoginVar loginVar) {
+		// Koneksi dengan user controller
 		userController.handling_login(loginVar);
 		
 		loginVar.menuItemRegister.setOnAction(e->{

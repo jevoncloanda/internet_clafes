@@ -77,16 +77,10 @@ public class AdminHomePage {
 		adminHomePageVar.role_col = new TableColumn<>("role");
 		adminHomePageVar.table.getColumns().addAll(adminHomePageVar.username_col, adminHomePageVar.age_col, adminHomePageVar.role_col);
 		
-		adminHomePageVar.table.setMaxHeight(150);
-		adminHomePageVar.username_col.setMinWidth(200);
-		adminHomePageVar.age_col.setPrefWidth(200);
-        
-        
 		adminHomePageVar.vb.getChildren().add(adminHomePageVar.table);
-		adminHomePageVar.vb.setPadding(new Insets(20, 30, 30, 30));
 		adminHomePageVar.gp.add(adminHomePageVar.vb, 0, 0);
 		
-		// Initialize Update Role 
+		// Initialize Form Update Role 
 		adminHomePageVar.vb1 = new VBox();
 		
 		adminHomePageVar.title1 = new Label("Update User Role");
@@ -119,13 +113,15 @@ public class AdminHomePage {
 	}
 	
 	private void viewAllStaff(AdminHomePageVar adminHomePageVar) {
-		
+		// Koneksi ke user controller untuk lihat semua staff di tabel
 		userController.getAllStaffController(adminHomePageVar);
 	}
 	
 	private void handle(AdminHomePageVar adminHomePageVar) {
+		// Koneksi ke user controller untuk form update role staff
 		userController.handling_admin(adminHomePageVar);
 		
+		// Untuk logout
 		adminHomePageVar.logout.setOnAction(e->{
             try {
                 new LoginPage(adminHomePageVar.stage);
@@ -134,6 +130,7 @@ public class AdminHomePage {
             }
         });
 		
+		// Untuk ke page add job
 		adminHomePageVar.addJob.setOnAction(e->{
             try {
                 new AddJobPage(adminHomePageVar.stage);
@@ -143,6 +140,7 @@ public class AdminHomePage {
             }
         });
 		
+		// Untuk ke page view transaction
 		adminHomePageVar.viewTransaction.setOnAction(e->{
             try {
                 new ViewAllTransactionsPage(adminHomePageVar.stage);
@@ -152,6 +150,7 @@ public class AdminHomePage {
             }
         });
 		
+		// Untuk ke page view report
 		adminHomePageVar.viewReport.setOnAction(e->{
             try {
                 new ViewReportsPage(adminHomePageVar.stage);
@@ -160,6 +159,7 @@ public class AdminHomePage {
             }
         });
 		
+		// Untuk ke page pc management
 		adminHomePageVar.pcManagement.setOnAction(e->{
 			try {
               new PCManagementPage(adminHomePageVar.stage);

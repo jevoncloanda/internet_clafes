@@ -11,6 +11,8 @@ public class UserModel {
 	Connect con = Connect.getInstance();
 	PreparedStatement ps;
 	ResultSet rs;
+	
+	// Function untuk memasukkan data user ke database
 	public void regis(User user) {
 		
 		String query ="INSERT INTO users Value('0',?,?,?,?)";
@@ -29,6 +31,7 @@ public class UserModel {
 		}
 	}
 	
+	// Mengambil id user menggunakan user name
 	public int getUserID(String userName) {
 		String query = "SELECT UserID FROM users WHERE UserName = ?";
 		ps = con.prepareStatment(query);
@@ -43,6 +46,7 @@ public class UserModel {
 		return 0;
 	}
 	
+	// Mengambil role user menggunakan id
 	public String getUserRole(Integer id) {
 		String query = "SELECT UserRole FROM users WHERE UserID = ?";
 		ps = con.prepareStatment(query);
@@ -57,6 +61,7 @@ public class UserModel {
 		return "";
 	}
 	
+	// Cek user ada di database menggunakan user name
 	public boolean checkUserExist(String userName) {
 		String query = "SELECT EXISTS(SELECT * FROM users WHERE UserName = ?)";
 		ps = con.prepareStatment(query);
@@ -73,6 +78,7 @@ public class UserModel {
 		return true;
 	}
 	
+	// Cek user ada di database menggunakan user id
 	public boolean checkUserExist(Integer id) {
 		String query = "SELECT EXISTS(SELECT * FROM users WHERE UserID = ?)";
 		ps = con.prepareStatment(query);
@@ -89,6 +95,7 @@ public class UserModel {
 		return true;
 	}
 	
+	// Cek kalau data user ada di database
 	public boolean login(String userName, String pass) {
 		String query = "SELECT EXISTS(SELECT * FROM users WHERE UserName = ? AND UserPassword = ?)";
 		ps = con.prepareStatment(query);
@@ -106,6 +113,7 @@ public class UserModel {
 		return true;
 	}
 	
+	// Mengambil data user dari database menggunakan parameter username dan password
 	public ResultSet getUser(String userName, String pass) {
 		String query = "SELECT * FROM users WHERE UserName = ? AND UserPassword = ?";
 		ps = con.prepareStatment(query);
@@ -119,6 +127,7 @@ public class UserModel {
 		return rs;
 	}
 	
+	// Untuk update role user
 	public void updateRole(String userName, String newRole) {
 		String query = "UPDATE users SET UserRole = ? WHERE UserName = ?";
 		ps = con.prepareStatment(query);
@@ -131,6 +140,7 @@ public class UserModel {
 		}
 	}
 	
+	// Ambil semua data staff dari database (user dengan role Admin / Technician / Operator)
 	public ResultSet getAllStaffModel() {
 		String query = "SELECT * FROM users WHERE UserRole = 'Admin' OR UserRole = 'Technician' OR UserRole = 'Operator'";
 		
@@ -144,6 +154,7 @@ public class UserModel {
 		return rs;
 	}
 	
+	// Mengambil semua data technician (user dengan role Technician)
 	public ResultSet getAllTechnicians() {
 		String query = "SELECT * FROM users WHERE UserRole = 'Technician'";
 		

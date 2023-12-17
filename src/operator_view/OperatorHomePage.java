@@ -102,9 +102,12 @@ public class OperatorHomePage {
 	}
 	
 	private void handle(OperatorHomePageVar ov, User currentUser) {
+		// Koneksi ke pc book controller untuk finish/cancel book dan assign user to another pc
 		pcBookController.handling_finishBook(ov, currentUser);
 		pcBookController.handling_cancelBook(ov, currentUser);
 		pcBookController.handling_assignPC(ov, currentUser);
+		
+		// Untuk logout
 		ov.menuItemLogout.setOnAction(e->{
 			try {
 				new LoginPage(ov.stage);
@@ -114,6 +117,7 @@ public class OperatorHomePage {
 			}
 		});
 		
+		// Untuk ke report page
 		ov.report.setOnAction(e->{
 			try {
 				new MakeReportPage(ov.stage, currentUser);
@@ -126,8 +130,10 @@ public class OperatorHomePage {
 
 	public OperatorHomePage(Stage stage, User currentUser) {
 		OperatorHomePageVar ov = new OperatorHomePageVar();
+		// Untuk generate tabel tabel
 		pcBookController.handling_viewAllPCBooks(ov);
 		pcController.handling_viewPCOperator(ov);
+		
 		initialize(ov);
 		initializeAlert(ov);
 		handle(ov, currentUser);

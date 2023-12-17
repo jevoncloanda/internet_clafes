@@ -11,6 +11,7 @@ public class PCModel {
 	PreparedStatement ps;
 	ResultSet rs;
 	
+	// Menambahkan pc baru ke database
 	public void addPC(Integer id) {
 		
 		String query ="INSERT INTO pcs Value(?,'Usable')";
@@ -26,6 +27,7 @@ public class PCModel {
 		}
 	}
 	
+	// Memperbarui pc condition di database dengan pc id
 	public void updatePCCondition(Integer pcID, String Condition) {
 		String query = "UPDATE pcs SET PC_Condition=? WHERE PC_ID=?";
 		ps = con.prepareStatment(query);
@@ -38,6 +40,7 @@ public class PCModel {
 		}
 	}
 	
+	// Cek kalau pc ada di database
 	public boolean checkPCExist(Integer pc_id) {
 		String query = "SELECT EXISTS(SELECT * FROM pcs WHERE PC_ID = ?)";
 		ps = con.prepareStatment(query);
@@ -54,6 +57,7 @@ public class PCModel {
 		return true;
 	}
 	
+	// Mengambil semua data pc dari database
 	public ResultSet getAllPC() {
 		String query = "SELECT * FROM pcs";
 		ps = con.prepareStatment(query);
@@ -65,17 +69,7 @@ public class PCModel {
 		return rs;
 	}
 	
-	public void updatePC(Integer pcID, String newCondition) {
-		String query = "UPDATE pcs SET PC_Condition = ? WHERE PC_ID = ?";
-		ps = con.prepareStatment(query);
-		try {
-			ps.setString(1, newCondition);
-			ps.setInt(2, pcID);
-			ps.executeUpdate();
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	// Mengambil data pc tertentu menggunakan pc id
 	public ResultSet getPC(Integer id) {
 		String query = "SELECT * FROM pcs WHERE PC_ID = ?";
 		ps = con.prepareStatment(query);

@@ -12,6 +12,7 @@ public class JobModel {
 	ResultSet rs;
 	UserModel userModel = new UserModel();
 	
+	// Menambahkan technician job baru ke database
 	public void addJob(Job job) {
 		String query ="INSERT INTO jobs Value('0',?,?,?)";
 		
@@ -28,6 +29,7 @@ public class JobModel {
 		}
 	}
 	
+	// Mengambil data job dengan username technician
 	public ResultSet getJob(String userName) {
 		int userID = userModel.getUserID(userName);
 		String query = "SELECT * FROM jobs WHERE UserID = ?";
@@ -41,6 +43,7 @@ public class JobModel {
 		return rs;
 	}
 	
+	// Mengambil semua data job
 	public ResultSet getAllJobs() {
 		String query = "SELECT * FROM jobs";
 		ps = con.prepareStatment(query);
@@ -52,6 +55,7 @@ public class JobModel {
 		return rs;
 	}
 	
+	// Cek jika job id ada di database
 	public boolean checkJobID(Integer id, Integer userid) {
 		String query = "SELECT EXISTS(SELECT * FROM jobs WHERE Job_ID = ? AND UserID = ?)";
 		ps = con.prepareStatment(query);
@@ -69,6 +73,7 @@ public class JobModel {
 		return true;
 	}
 	
+	// Cek jika job sudah ada dengan user id dan pc id
 	public boolean checkJobExists(Integer userID, Integer pcID) {
 		String query = "SELECT EXISTS(SELECT * FROM jobs WHERE UserID = ? AND PC_ID = ?)";
 		ps = con.prepareStatment(query);
@@ -86,6 +91,7 @@ public class JobModel {
 		return true;
 	}
 	
+	// Cek jika job sudah ada dengan job id
 	public boolean checkJobExists(Integer jobID) {
 		String query = "SELECT EXISTS(SELECT * FROM jobs WHERE Job_ID = ?)";
 		ps = con.prepareStatment(query);
@@ -102,6 +108,7 @@ public class JobModel {
 		return true;
 	}
 	
+	// Cek job sudah ada dengan job id, user id, dan pc id
 	public boolean checkJobExists(Integer jobID, Integer userID, Integer pcID) {
 		String query = "SELECT EXISTS(SELECT * FROM jobs WHERE Job_ID = ? AND UserID = ? AND PC_ID = ?)";
 		ps = con.prepareStatment(query);
@@ -120,6 +127,7 @@ public class JobModel {
 		return true;
 	}
 	
+	// Update data job teretntu menjadi Complete
 	public void completeJob(Integer id) {
 		String query = "UPDATE jobs SET JobStatus='Complete' WHERE Job_ID=?";
 		ps = con.prepareStatment(query);
@@ -131,6 +139,7 @@ public class JobModel {
 		}
 	}
 	
+	// Memperbarui job technician status pada database
 	public void updateJobStatus(Integer jobID, String status) {
 		String query = "UPDATE jobs SET JobStatus=? WHERE Job_ID=?";
 		ps = con.prepareStatment(query);

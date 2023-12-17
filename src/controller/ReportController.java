@@ -21,22 +21,29 @@ import view.MakeReportPage.MakeReportPageVar;
 
 public class ReportController {
 	ReportModel reportModel = new ReportModel();
+	
+	// Function untuk mengurus insert report baru
 	public void addNewReport(MakeReportPageVar mrp, User user) {
 		mrp.makeReportBtn.setOnAction(e->{
+			// Menamgbil semua value form report
 			PCModel pcModel = new PCModel();
 			String userRole = user.getUserRole();
 			Integer pcID = mrp.pcID_spin.getValue();
 			String reportNote = mrp.reportNote_tf.getText();
 			
+			// Validasi
 			if(reportNote.isEmpty()) {
+				// Kalau data kosong
 				mrp.alert.setContentText("Please fill all of the fields!");
 				mrp.alert.showAndWait();
 			}
 			else if(pcModel.checkPCExist(pcID)==false) {
+				// Kalau pc tidak ada
 				mrp.alert.setContentText("Invalid PC ID!");
 				mrp.alert.showAndWait();
 			}
 			else {
+				// Insert report baru ke database melalui report model
 				reportModel.addNewReport(userRole, pcID, reportNote);
 				mrp.success.setContentText("Report successfully sent!");
 				mrp.success.showAndWait();
@@ -45,9 +52,10 @@ public class ReportController {
 		});
 	}
 	
+	// Function untuk menampilkan tabel report pada view report page untuk admin
 	public void getAllReportData(ViewReportsPageVar vr) {
 		ArrayList<Report> reportList = new ArrayList<>();
-
+		// Inisialisasi semua variabel tabel
 		vr.vb1 = new VBox();
 		vr.reportTable = new TableView<Report>();
 		vr.tableTitle = new Label("Report Table");
@@ -58,8 +66,10 @@ public class ReportController {
 		vr.reportDate_col = new TableColumn<>("Report Date");
 		vr.reportTable.getColumns().addAll(vr.reportID_col, vr.userRole_col, vr.pcID_col, vr.reportNote_col, vr.reportDate_col);
 
+		// Mengambil semua data report
 		ResultSet rs = reportModel.getAllReportData();
-
+		
+		// Memasukkan tiap data report ke tabel
 		try {
 			while (rs.next()) {
 				Integer rid = rs.getInt("Report_ID");

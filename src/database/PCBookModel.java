@@ -13,6 +13,7 @@ public class PCBookModel {
 	PreparedStatement ps;
 	ResultSet rs;
 
+	// Menambahkan pc book baru ke database
 	public void addPCBook(PCBook pcBook) {
 		String query = "INSERT INTO pcbooks Value('0',?,?,?)";
 
@@ -29,6 +30,7 @@ public class PCBookModel {
 		}
 	}
 
+	// Cek pc book ada di database
 	public boolean checkPCBookExist(Integer id, Date bookedDate) {
 		String query = "SELECT EXISTS(SELECT * FROM pcbooks WHERE PC_ID = ? AND BookedDate = ?)";
 		ps = con.prepareStatment(query);
@@ -46,6 +48,7 @@ public class PCBookModel {
 		return true;
 	}
 	
+	// Cek kalau pc book id ada menggunakan pc book id
 	public boolean checkPCBookIDExist(Integer id) {
 		String query = "SELECT EXISTS(SELECT * FROM pcbooks WHERE BookID = ?)";
 		ps = con.prepareStatment(query);
@@ -62,6 +65,7 @@ public class PCBookModel {
 		return true;
 	}
 
+	// Mengambil semua data pc book dari database
 	public ResultSet getAllPCBooks() {
 		String query = "SELECT * FROM pcbooks";
 
@@ -75,6 +79,7 @@ public class PCBookModel {
 		return rs;
 	}
 
+	// Mengambil data pc book berdasarkan pc book id tergentung
 	public ResultSet getPCBookByID(Integer bookID) {
 		String query = "SELECT * FROM pcbooks WHERE BookID = ?";
 
@@ -89,6 +94,7 @@ public class PCBookModel {
 		return rs;
 	}
 	
+	// Memperbarui data pc book tertentu
 	public void updatePCBook(Integer bookID, Integer newPcID) {
 		String query = "UPDATE pcbooks SET PC_ID = ? WHERE BookID = ?";
 		ps = con.prepareStatment(query);
@@ -101,6 +107,7 @@ public class PCBookModel {
 		}
 	}
 
+	// Menghapus data pc book tertentu dari database
 	public void deletePCBook(Integer bookID) {
 		String query = "DELETE FROM pcbooks WHERE BookID = ?";
 

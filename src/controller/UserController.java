@@ -34,22 +34,28 @@ public class UserController {
 	User currentUser;
 	ResultSet rs;
 	
+	// Function untuk mengurus register
 	public void handling_regis(RegisterVar registerVar) {
 		registerVar.button_regis.setOnAction(e -> {
+			// Mengambil semua value dari form
 			String u = registerVar.username_tf.getText();
 			String p = registerVar.pass_pf.getText();
 			String confP = registerVar.confpass_pf.getText();
 			int a = registerVar.age_spin.getValue();
 
+			//Validasi
 			if(u == null || p == null || a == 0) {
+				// Validasi data kosong
 				registerVar.alert.setContentText("Please fill all of the fields!");
 				registerVar.alert.showAndWait();
 			}
 	        else if(u.length() < 7) {
+	        	// Validasi panjang username
 	        	registerVar.alert.setContentText("UserName must be 7 characters or more!");
 	        	registerVar.alert.showAndWait();
 	        }
 	        else if(p.length() < 6) {
+	        	// validasi panjang password
 	        	registerVar.alert.setContentText("Password must be 6 characters or more!");
 	        	registerVar.alert.showAndWait();
 	        }
@@ -89,41 +95,55 @@ public class UserController {
 	                !p.contains("7") &&
 	                !p.contains("8") &&
 	                !p.contains("9")) {
+	        	// Validasi password hanya ada alpha numeric characters
 	        	registerVar.alert.setContentText("Password must only contain alphanumeric characters [A-Z and/or 0-9]");
 	        	registerVar.alert.showAndWait();
 	        }
 	        else if(!p.equals(confP)) {
+	        	// Validasi password sama dengan confirm password
 	        	registerVar.alert.setContentText("Confirm Password must be the same with Password!");
 	        	registerVar.alert.showAndWait();
 	        }
 	        else if(a < 13 || a > 65) {
+	        	// Validasi umur diantara 13-65
 	        	registerVar.alert.setContentText("Age must be between 13-65");
 	        	registerVar.alert.showAndWait();
 	        }
 	        else if(userModel.checkUserExist(u) == true) {
+	        	// Validasi kalau user sudah ada
 	        	registerVar.alert.setContentText("Username already exists!");
 	        	registerVar.alert.showAndWait();
 	        }
 	        else {
+	        	// Insert data user melalui user model
 				userModel.regis(new User(0, u, p, a, "Customer"));
 				new LoginPage(registerVar.stage);
 			}
 		});
 	}
 	
+	// Function untuk mengurus login
 	public void handling_login(LoginVar loginVar) {		
 		loginVar.button_login.setOnAction(e -> {
+			// Mengambil value form login
 			String u = loginVar.username_tf.getText();
 			String p = loginVar.password_pf.getText();
+			
+			// Validasi
 			if(u.isEmpty()|| p.isEmpty()) {
+				// Validasi data kosong
 				loginVar.alert.setContentText("Fill in all fields!");
 				loginVar.alert.showAndWait();
 			}
 			else if(userModel.login(u, p) == false) {
+				// Validasi salah input username / password
 				loginVar.alert.setContentText("Invalid username or password!");
 				loginVar.alert.showAndWait();
 			}
 			else if(userModel.login(u, p) == true) {
+				// Validasi kalau username / passwrod sudah benar
+				
+				// Ambil data user dari database melalui user model
 				rs = userModel.getUser(u, p);
 				try {
 					rs.next();
@@ -133,7 +153,7 @@ public class UserController {
 					String role = rs.getString("UserRole");
 					currentUser = new User(0, username, password, age, role);
 					
-					// tinggal tambahin new ..HomePage() tiap role nya disini
+					// Validasi untuk memasukkan user ke home page user role mana
 					if(role.equals("Customer")) {
 						new CustomerHomePage(loginVar.stage, currentUser);
 					}
@@ -153,12 +173,15 @@ public class UserController {
 		});
 	}
 	
+	// Function untuk melihatkan semua data staff di tabel
 	public void getAllStaffController(AdminHomePageVar adminHomePageVar) {
 		ArrayList<User> userList = new ArrayList<>();
 		AdminHomePage adminPage = null;
 		
+		// Ambil semua data staff dari database menggunakan user model
         rs = userModel.getAllStaffModel();
         
+        // Memasukkan tiap row data staff ke tabel
         try {
 			while(rs.next()) {
 				String u = rs.getString("UserName");
@@ -182,31 +205,43 @@ public class UserController {
 		adminHomePageVar.role_col.setCellValueFactory(new PropertyValueFactory<>("UserRole"));
 	}
 	
+	// Function untuk mengurus form update role di admin home page
 	public void handling_admin(AdminHomePageVar adminHomePageVar) {		
 		adminHomePageVar.btnUpdate.setOnAction(e -> {
+			// Mengambil semua value dari form update role
 			String u = adminHomePageVar.username_tf.getText();
 			String newRole = adminHomePageVar.role_tf.getText();
+			
+			// Validasi
 			if(u.isEmpty()|| newRole.isEmpty()) {
+				// Kalau data kosong
 				adminHomePageVar.alert.setContentText("Fill in all fields!");
 				adminHomePageVar.alert.showAndWait();
 			}
 			else if(!(newRole.equals("Admin") || newRole.equals("Operator") || newRole.equals("Technician"))) {
+				// Kalau input role bukan Admin / Operator / Technician
 				adminHomePageVar.alert.setContentText("Invalid role!");
 				adminHomePageVar.alert.showAndWait();
 			}
 			else if(userModel.checkUserExist(u)) {
+				// Kalau user ada
+				
+				// Update role staff melalui user model
 				userModel.updateRole(u, newRole);
 				new AdminHomePage(adminHomePageVar.stage);
 			}
 		});
 	}
 
+	// Function untuk menampilkan tabel technicians di add job page
 	public void getAllTechnicians(AddJobPageVar ajv) {
 		ArrayList<User> userList = new ArrayList<>();
 		AddJobPage addJobPage = null;
 		
+		// Mengambil semua data technicians dari database menggunakan user model
         rs = userModel.getAllTechnicians();
         
+        // Memasukkan tiap row data technician ke tabel
         try {
 			while(rs.next()) {
 				Integer id = rs.getInt("UserID");

@@ -75,6 +75,7 @@ public class ViewAllTransactionsPage {
 	}
 	
 	private void handle(ViewAllTransactionPageVar vav) {
+		// Untuk logout
 		vav.logout.setOnAction(e->{
             try {
                 new LoginPage(vav.stage);
@@ -84,6 +85,7 @@ public class ViewAllTransactionsPage {
             }
         });
 		
+		// Untuk ke home page
 		vav.home.setOnAction(e->{
             try {
                 new AdminHomePage(vav.stage);
@@ -93,6 +95,7 @@ public class ViewAllTransactionsPage {
             }
         });
 		
+		// Untuk ke page add job
 		vav.addJob.setOnAction(e->{
             try {
                 new AddJobPage(vav.stage);
@@ -102,6 +105,7 @@ public class ViewAllTransactionsPage {
             }
         });
 		
+		// Untuk ke page view report
 		vav.viewReport.setOnAction(e->{
             try {
                 new ViewReportsPage(vav.stage);
@@ -111,6 +115,7 @@ public class ViewAllTransactionsPage {
             }
         });
 		
+		// Untuk ke page pc management
 		vav.pcManagement.setOnAction(e->{
 			try {
               new PCManagementPage(vav.stage);
@@ -122,8 +127,10 @@ public class ViewAllTransactionsPage {
 	
 	public ViewAllTransactionsPage(Stage stage) {
 		ViewAllTransactionPageVar vav = new ViewAllTransactionPageVar();
+		// Untuk generate tabel tabel
 		transactionController.handling_viewTransactionDetailsAdmin(vav);
 		transactionController.handling_viewTransactionHeadersAdmin(vav);
+		
 		initialize(vav);
 		handle(vav);
 		vav.stage = stage;

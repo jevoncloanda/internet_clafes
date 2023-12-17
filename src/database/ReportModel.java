@@ -10,6 +10,7 @@ public class ReportModel {
 	PreparedStatement ps;
 	ResultSet rs;
 	
+	// Function untuk insert report baru ke database
 	public void addNewReport(String userRole, Integer pcID, String reportNote) {
 		String query ="INSERT INTO reports Value('0',?,?,?,?)";
 		Date date = new Date(System.currentTimeMillis());
@@ -27,6 +28,7 @@ public class ReportModel {
 		}
 	}
 	
+	// Mengambil semua data report
 	public ResultSet getAllReportData() {
 		String query = "SELECT * FROM reports";
 		ps = con.prepareStatment(query);

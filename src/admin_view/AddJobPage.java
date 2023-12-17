@@ -43,6 +43,7 @@ public class AddJobPage {
 		public VBox vb;
 		public VBox vb1, vb2, vbJob;
 		
+		// Tabel Computer Technician
 		public TableView<User> table;
 		public TableColumn<User, String> username_col, role_col;
 		public TableColumn<User, Integer> age_col, userid_col;
@@ -102,6 +103,7 @@ public class AddJobPage {
 		ajv.vb2 = new VBox();
 		ajv.vbGabung = new VBox();
 		
+		// Untuk form Add Technician Job
 		ajv.addJobTitle = new Label("Add Technician Job");
 		ajv.userID = new Label("User ID");
 		ajv.userID_spin = new Spinner<>(1, 99999999, 1);
@@ -111,6 +113,7 @@ public class AddJobPage {
 		ajv.jobStatus2_tf = new TextField();
 		ajv.addJobBtn = new Button("ADD JOB");
 		
+		// Untuk form Update Technician Job
 		ajv.updateJobTitle = new Label("Update Technician Job Status");
 		ajv.userIDUpdate = new Label("Choose User ID");
 		ajv.userIDUpdate_spin = new Spinner<>(1, 99999999, 1);
@@ -142,9 +145,11 @@ public class AddJobPage {
 	}
 	
 	public void handle(AddJobPageVar ajv) {
+		// Koneksi ke job controller
 		jobController.addJobs(ajv);
 		jobController.updateJob(ajv);
 		
+		// Untuk logout
 		ajv.logout.setOnAction(e->{
             try {
                 new LoginPage(ajv.stage);
@@ -154,6 +159,7 @@ public class AddJobPage {
             }
         });
 		
+		// Untuk ke home page
 		ajv.home.setOnAction(e->{
             try {
                 new AdminHomePage(ajv.stage);
@@ -163,6 +169,7 @@ public class AddJobPage {
             }
         });
 		
+		// Untuk ke page view transaction
 		ajv.viewTransaction.setOnAction(e->{
             try {
                 new ViewAllTransactionsPage(ajv.stage);
@@ -172,6 +179,7 @@ public class AddJobPage {
             }
         });
 		
+		// Untuk ke page view report
 		ajv.viewReport.setOnAction(e->{
             try {
                 new ViewReportsPage(ajv.stage);
@@ -181,6 +189,7 @@ public class AddJobPage {
             }
         });
 		
+		// Untuk ke page pc management
 		ajv.pcManagement.setOnAction(e->{
 			try {
               new PCManagementPage(ajv.stage);
@@ -192,6 +201,7 @@ public class AddJobPage {
 	
 	public AddJobPage(Stage stage) {
 		AddJobPageVar ajv = new AddJobPageVar();
+		// Untuk generate tabel tabel melalui controller
 		jobController.viewAllJobs(ajv);
 		userController.getAllTechnicians(ajv);
 		pcController.handling_viewPCAddJob(ajv);

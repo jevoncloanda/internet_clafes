@@ -67,6 +67,7 @@ public class ComputerTechnicianHomePage {
 		tv.bp = new BorderPane();
 		tv.vb2 = new VBox();
 		
+		// Untuk form complete job
 		tv.title = new Label("Complete Job");
 		tv.jobStatus = new Label("Input Job ID");
 		tv.job_spin = new Spinner<>(1, 10000000, 1);
@@ -85,6 +86,7 @@ public class ComputerTechnicianHomePage {
 	}
 	
 	private void handle(ComputerTechnicianHomePageVar tv, User user) {
+		// Koneksi dengan job controller
 		jobController.completeJob(tv, user);
 		
 		tv.menuItemLogout.setOnAction(e->{
@@ -99,6 +101,8 @@ public class ComputerTechnicianHomePage {
 	
 	public ComputerTechnicianHomePage(Stage stage, User user) {
 		ComputerTechnicianHomePageVar technicianHomePageVar = new ComputerTechnicianHomePageVar();
+		
+		// Untuk generate tabel jobs technician tertentu melalui job controller
 		jobController.viewJobs(technicianHomePageVar, user);
 		initialize(technicianHomePageVar);
 		initializeAlert(technicianHomePageVar);

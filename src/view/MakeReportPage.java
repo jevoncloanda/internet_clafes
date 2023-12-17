@@ -72,6 +72,7 @@ public class MakeReportPage {
 		mrp.vb3 = new VBox();
 		mrp.gp = new GridPane();
 		
+		// Untuk form make report
 		mrp.title = new Label("Make Report");
 		mrp.pcID_lbl = new Label("Input PC ID");
 		mrp.pcID_spin = new Spinner<>(1, 999999999, 1);
@@ -98,8 +99,10 @@ public class MakeReportPage {
 	}
 	
 	private void handle(MakeReportPageVar mrp, User user) {
+		// Koneksi ke report controller
 		reportController.addNewReport(mrp, user);
 		
+		// Untuk logout
 		mrp.logout.setOnAction(e->{
             try {
                 new LoginPage(mrp.stage);
@@ -109,6 +112,7 @@ public class MakeReportPage {
             }
         });
 		
+		// Untuk kembali ke home page
 		mrp.home.setOnAction(e->{
             try {
             	if(user.getUserRole().equals("Customer")) {
@@ -126,6 +130,8 @@ public class MakeReportPage {
 	
 	public MakeReportPage(Stage stage, User user) {
 		MakeReportPageVar mrp = new MakeReportPageVar();
+		
+		// Untuk generate tabel pc menggunakan pc controller
 		pcController.handling_viewPC(mrp);
 		initialize(mrp);
 		initializeAlert(mrp);

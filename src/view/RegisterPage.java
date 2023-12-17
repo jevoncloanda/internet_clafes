@@ -56,6 +56,7 @@ public class RegisterPage extends Application{
 		registerVar.vb1 = new VBox();
 		registerVar.vb2 = new VBox();
 
+		// Untuk Form Registrasi
 		registerVar.title = new Label("Registration");
 		registerVar.username_lbl = new Label("Username");
 		registerVar.username_tf = new TextField();
@@ -89,6 +90,7 @@ public class RegisterPage extends Application{
 	}
 
 	private void handle(RegisterVar registerVar) {
+		// Koneksi dengan User Controller
 		userController.handling_regis(registerVar);
 		
 		registerVar.menuItemLogin.setOnAction(e->{

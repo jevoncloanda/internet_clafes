@@ -86,7 +86,6 @@ public class CustomerHomePage {
 		cv.vb2.getChildren().addAll(cv.title3, cv.pcID_lbl, cv.pcID_tf, cv.bookedTime_pick, cv.button_book);
 		cv.vb3.getChildren().addAll(cv.vb, cv.vb1);
 
-		
 		cv.bp.setTop(cv.menuBar);
 		cv.bp.setCenter(cv.vb3);
 		cv.bp.setBottom(cv.vb2);
@@ -94,8 +93,10 @@ public class CustomerHomePage {
 	}
 	
 	private void handle(CustomerHomePageVar cv, User currentUser) {
+		// Koneksi ke Transaction Controller untuk book pc
 		transactionController.handling_bookPC(cv, currentUser);
 		
+		// Untuk logout
 		cv.menuItemLogout.setOnAction(e->{
 			try {
 				new LoginPage(cv.stage);
@@ -105,6 +106,7 @@ public class CustomerHomePage {
 			}
 		});
 		
+		// Untuk ke report page
 		cv.report.setOnAction(e->{
 			try {
 				new MakeReportPage(cv.stage, currentUser);
@@ -117,8 +119,10 @@ public class CustomerHomePage {
 	
 	public CustomerHomePage(Stage stage, User currentUser) {
 		CustomerHomePageVar cv = new CustomerHomePageVar();
+		// Generate Tabel-Tabel
 		pcController.handling_viewPC(cv);
 		transactionController.handling_viewTransactionDetailByCustomer(cv, currentUser);
+		
 		initialize(cv);
 		initializeAlert(cv);
 		handle(cv, currentUser);

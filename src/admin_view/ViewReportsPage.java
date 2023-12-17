@@ -57,6 +57,7 @@ public class ViewReportsPage {
 	}
 	
 	public void handle(ViewReportsPageVar vr) {
+		// Untuk logout
 		vr.logout.setOnAction(e->{
             try {
                 new LoginPage(vr.stage);
@@ -66,6 +67,7 @@ public class ViewReportsPage {
             }
         });
 		
+		// Untuk ke home page
 		vr.home.setOnAction(e->{
             try {
                 new AdminHomePage(vr.stage);
@@ -75,6 +77,7 @@ public class ViewReportsPage {
             }
         });
 		
+		// Untuk ke page view transaction
 		vr.viewTransaction.setOnAction(e->{
             try {
                 new ViewAllTransactionsPage(vr.stage);
@@ -84,6 +87,7 @@ public class ViewReportsPage {
             }
         });
 		
+		// Untuk ke page add job
 		vr.addJob.setOnAction(e->{
             try {
                 new AddJobPage(vr.stage);
@@ -93,6 +97,7 @@ public class ViewReportsPage {
             }
         });
 		
+		// Untuk ke page pc management
 		vr.pcManagement.setOnAction(e->{
 			try {
               new PCManagementPage(vr.stage);
@@ -104,7 +109,9 @@ public class ViewReportsPage {
 	
 	public ViewReportsPage(Stage stage) {
 		ViewReportsPageVar vr = new ViewReportsPageVar();
+		// Untuk generate tabel report melalui report controller
 		reportController.getAllReportData(vr);
+		
 		initialize(vr);
 		handle(vr);
 		vr.stage = stage;

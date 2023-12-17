@@ -126,10 +126,12 @@ public class PCManagementPage {
 	}
 	
 	private void handle(PCManagementPageVar pcManagementPageVar) {
+		// Koneksi ke pc controller
 		pcController.handling_addPC(pcManagementPageVar);
 		pcController.handling_viewAllPCManagement(pcManagementPageVar);
 		pcController.handlingUpdatePC(pcManagementPageVar);
 		
+		// Untuk logout
 		pcManagementPageVar.logout.setOnAction(e->{
             try {
                 new LoginPage(pcManagementPageVar.stage);
@@ -139,6 +141,7 @@ public class PCManagementPage {
             }
         });
 		
+		// Untuk ke home page
 		pcManagementPageVar.home.setOnAction(e->{
             try {
                 new AdminHomePage(pcManagementPageVar.stage);
@@ -148,6 +151,7 @@ public class PCManagementPage {
             }
         });
 		
+		// Untuk ke page view transaction
 		pcManagementPageVar.viewTransaction.setOnAction(e->{
             try {
                 new ViewAllTransactionsPage(pcManagementPageVar.stage);
@@ -157,6 +161,7 @@ public class PCManagementPage {
             }
         });
 		
+		// Untuk ke page add job
 		pcManagementPageVar.addJob.setOnAction(e->{
             try {
                 new AddJobPage(pcManagementPageVar.stage);
@@ -166,6 +171,7 @@ public class PCManagementPage {
             }
         });
 		
+		// Untuk ke page view report
 		pcManagementPageVar.report.setOnAction(e->{
             try {
                 new ViewReportsPage(pcManagementPageVar.stage);
